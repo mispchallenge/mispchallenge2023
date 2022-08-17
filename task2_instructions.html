@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<!--
+	Arcana by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MISP Challenge-Task2 Instructions</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Logo -->
+					<img src="images/isca.png" width="6%" height="6%" style="margin:0 77% 0 0;"><h1 style="font-size: 120%;  margin: -4% 0 -2% 0"><a href="index.html" id="logo">Multimodal Information Based Speech Processing (MISP) Challenge 2021</a><img src="images/ieee.png" width="7%" height="7%" style="margin:-15% 0% 1% 79%;"></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="overview.html">Overview</a><li>
+								<li>
+									<a href="#">Task1</a>
+									<ul>
+										<li><a href="task1_instructions.html">Instructions</a></li>										
+										<li><a href="task1_data.html">Data</a></li>
+										<li><a href="task1_software.html">Software</a></li>
+						                <li><a href="task1_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li class="current">
+									<a href="#">Task2</a>
+									<ul>
+										<li><a href="task2_instructions.html">Instructions</a></li>										
+										<li><a href="task2_data.html">Data</a></li>
+										<li><a href="task2_software.html">Software</a></li>
+						                <li><a href="task2_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li><a href="download.html">Registration</a></li>
+								<li><a href="extral_data.html">Extral Data</a></li>
+								<!-- <li><a href="contact.html">Contact</a></li> -->
+							</ul>
+						</nav>
+
+				</div>
+			<!-- Main -->
+				<section class="wrapper style1">
+					<div class="container">
+						<!-- <h2>Task1 Datasets</h2> -->
+						<h1 style="font-size: 150%;">Task2 Instructions</h1>
+						<h3 style="font-size: 130%;">Evaluation</h3>
+						<p>
+						In this Challenge, we adopt Chinese Character Error Rate (CCER) as an official metric for our ranking. CCER calculation is based on the concept of Levenshtein distance, where we count the minimum number of character-level operations required to transform the recognition output into the ground truth text. It is represented with this formula:</br>
+						<center>
+	                        <figure style="padding:0px;border:0px; margin:10px">
+	                        <img src="images/Fig5.png" style="width:200px;padding:0px;border:0" />
+	                        </figure>
+			       		</center>
+						where:</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S = Number of Substitutions</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D = Number of Deletions</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I = Number of Insertions</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N = Number of characters in ground truth</br>
+						The lower CCER value (with 0 being a perfect score), the better the recognition performance. Due to multi-speaker interaction in our scenario, there exist the speech segments with multiple speakers talking simultaneously. For such speech overlap segment, we calculate all the S/I/D errors based on the recognition results and the ground truth for each speaker based on the oracle speaker diarization results.
+						</p>
+
+						<p>
+							For training and development test sets, we will prepare the scoring script which will be released together with the baseline. For the evaluation test set, the participant should submit a text file to the Kaggle platform which contains recognition results for all utterances. And CCER will be calculated and updated in the leaderboard. Each line of the file should be in the form as < Utterance ID > < Chinese characters sequence >. Utterance IDs will be provided by the official.
+						</p>
+
+						<h3 style="font-size: 110%;">Can I use extra audio/video/text data?</h3>
+						<p>External text and audio are not allowed to be used during the language model training and the acoustic model training. But use of external slient video data is allowed in the pretrained model training under the following conditions:</p>
+						<ul>
+					        <li>The used external resource is clearly referenced and freely accessible to any other research group in the world. External data refers to public datasets or trained models. The data must be public and freely available before 3rd of February 2022.</li>
+							<li>The list of external data sources used in training must be clearly indicated in the technical report.</li>
+							<li>Participants inform the organizers in advance about such data sources, so that all competitors know about them and have an equal opportunity to use them. Please send an email to the task coordinators; we will update the list of external datasets on the webpage accordingly. Once the evaluation set is published, the list of allowed external data resources is locked (no further external sources allowed).</li>
+						</ul>
+							We hope participants will pay more attention to technological innovation, especially audio and video fusion technology, instead of relying on using more data. This is not a pure competition, but a “scientific” challenge activity. There are similar rules in CHiME-5/6 challenge, too.
+						<p></p>
+						<h3 style="font-size: 110%;">Which information can I use?</h3>
+						<p>You can use the following annotations for training, development, and evaluation:</p>
+						<ul>
+					        <li>the corresponding room sizes</li>
+							<li>the corresponding configuration labels (as shown in Tab.1)</li>
+							<li>the corresponding speaker labels</li>
+							<li>the start and end times of all utterances</li>
+						</ul>
+						<p>For training and development, you can use the full-length recordings of all recording devices. For evaluation, you are allowed to use for a given utterance the full-length recordings of far-field devices (both the linear 6 microphones array and the wide-angle camera) for that session.</p>
+						<p></p>
+						<h3 style="font-size: 110%;">Which information shall I not use?</h3>
+						<p>Manual modification of the data or the annotations (e.g., manual refinement of the utterance start and end times) is forbidden. All parameters should be tuned on the training set or the development set. Modifications of the development set are allowed, provided that its size remains unchanged and these modifications do not induce the risk of inadvertently biasing the development set toward the particular speakers or acoustic conditions in the evaluation set. For instance, enhancing the signals, applying “unbiased” transformations or automatically refining the utterance start and end times is allowed. Augmenting the development set by generating simulated data, applying biased signal transformations (e.g., systematically increasing intensity/pitch), or selecting a subset of the development set is forbidden. In case of doubt, please ask us ahead of the submission deadline.</p>
+						<p></p>
+						<h3 style="font-size: 110%; margin:40 0 0 0;">Can I use a recognizer or overall system different from those in the official baseline pipeline?</h3>
+						<p>Again, you are entirely free in the development of your system.<br /> 
+						In particular, you can:</p>
+						<ul>
+					        <li>include a single-channel or multi-channel audio enhancement front-end</li>
+							<li>include a video pre-processing</li>
+							<li>use other acoustic features and visual features</li>
+							<li>modify the acoustic/visual/acoustic-visual model architecture or the training criterion</li>
+							<li>modify the lexicon and the language model</li>
+							<li>use any rescoring technique</li>
+						</ul>
+						<p></p>
+						<h3 style="font-size: 110%;">Which results should I report?</h3>
+						<p>For every tested system, you should report CCER in both development and evaluation sets (%).</p>
+
+					</div>
+				</section>
+
+			<!-- Gigantic Heading -->
+<!-- 				<section class="wrapper style2">
+					<div class="container">
+						<h1 style="font-size: 150%;">......</h1>
+					</div>
+				</section>
+
+				<section class="wrapper style1">
+					<div class="container">
+						<h1 style="font-size: 150%;">......</h1>
+					</div>
+				</section> -->
+
+			<!-- Footer -->
+				<div id="footer">
+					<!-- Copyright -->
+						<div class="copyright">
+							<ul class="menu">
+								<li>&copy; All rights reserved</li><li>E-mail: mispchallenge@gmail.com</li>
+							</ul>
+						</div>
+
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

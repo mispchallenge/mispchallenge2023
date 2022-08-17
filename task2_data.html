@@ -1,0 +1,293 @@
+<!DOCTYPE HTML>
+<!--
+	Arcana by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MISP Challenge-Task2 Data</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Logo -->
+					<img src="images/isca.png" width="6%" height="6%" style="margin:0 77% 0 0;"><h1 style="font-size: 120%;  margin: -4% 0 -2% 0"><a href="index.html" id="logo">Multimodal Information Based Speech Processing (MISP) Challenge 2021</a><img src="images/ieee.png" width="7%" height="7%" style="margin:-15% 0% 1% 79%;"></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="overview.html">Overview</a><li>
+								<li>
+									<a href="#">Task1</a>
+									<ul>
+										<li><a href="task1_instructions.html">Instructions</a></li>										
+										<li><a href="task1_data.html">Data</a></li>
+										<li><a href="task1_software.html">Software</a></li>
+						                <li><a href="task1_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li class="current">
+									<a href="#">Task2</a>
+									<ul>
+										<li><a href="task2_instructions.html">Instructions</a></li>										
+										<li><a href="task2_data.html">Data</a></li>
+										<li><a href="task2_software.html">Software</a></li>
+						                <li><a href="task2_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li><a href="download.html">Registration</a></li>
+								<li><a href="extral_data.html">Extral Data</a></li>
+								<!-- <li><a href="results.html">Results</a></li> -->
+								<!-- <li><a href="contact.html">Contact</a></li> -->
+							</ul>
+						</nav>
+
+				</div>
+
+			<!-- Main -->
+				<section class="wrapper style1">
+					<div class="container">
+						<h1 style="font-size: 150%;">Task2 Datasets</h1>
+						<p>The challenge uses the MISP2021 dataset which contains 110+ hours of audio-visual data. The dataset includes 340+ sessions. Each session consists of a about 20-minute discussion. The reason why we select an about 20-min duration rather than a longer recording for a session is that we want to alleviate the clock drift problem for synchronizing multiple devices.</p>
+<!-- 						<p>To refer to these data in a publication, please cite:</br>
+						To be announced</p> -->
+						<p>The data have been split into training, development test and evaluation test sets as follows.</p>
+						<center>
+							<table  class='default'>
+							    <tr>
+							        <th>Dataset</th>
+							        <th>Train</th>
+							        <th>Dev</th>
+							        <th>Eval</th>
+							        <th>Total</th>
+							    </tr>
+							    <tr>
+							        <th>Duration(h)</th>
+							        <td>101.12</td>
+							        <td>9.83</td>
+							        <td>9.94</td>
+							        <td>120.89</td>
+							    </tr>
+							    <tr>
+							        <th>Session</th>
+							        <td>304</td>
+							        <td>35</td>
+							        <td>32</td>
+							        <td>373</td>
+							    </tr>
+							    <tr>
+							        <th>Room</th>
+							        <td>20</td>
+							        <td>5</td>
+							        <td>5</td>
+							        <td>30</td>
+							    </tr>
+							    <tr>
+							        <th>Participant</th>
+							        <td>200</td>
+							        <td>21</td>
+							        <td>27</td>
+							        <td>248</td>
+							    </tr>
+							    <tr>
+							        <th>Male</th>
+							        <td>79</td>
+							        <td>9</td>
+							        <td>7</td>
+							        <td>95</td>
+							    </tr>
+							    <tr style="border-bottom: solid 1px;">
+							        <th>Female</th>
+							        <td>121</td>
+							        <td>12</td>
+							        <td>20</td>
+							        <td>153</td>
+							    </tr>
+							    <tr>
+							        <th colspan="5" style="border: solid 1px;">Tab.3. Task2 Dataset</th>
+							    </tr>
+							</table>
+						</center>
+						<p><strong>There isn’t duplicate speaker and room in training, development test and evaluation test sets.For training and development sets,  the released video includes the far scenario and the middle scenario while the released audio includes the far scenario, the middle scenario and the near scenario. But for the evaluation set, we only release the video in far scenario and the audio in far scenario during the challenge.</strong></p>	
+						<p><strong>The release of the evaluation set will use the same directory structure and file name rules as the development set. We will provide an official segment file with each line of content < segment_id > < speaker_id > < wav_name > < start_time > < end_time >. Each line of the final submitted result file is < segment_id > < str >, and the segment_id of the result file must be exactly the same as the official segment file.</strong></p>
+						<p></p>
+
+						<h3 style="font-size: 120%;">Directory Structure</h3>
+						<p>
+							There is a pdf file in the top-level directory, called data-specification.pdf, which describes the introduction of the data set. There are two txt files in the “doc” folder, speaker_info.txt describes the gender and age range of every speaker, and room_info.txt describes the size of every room. We also provide checkboard images for each far wide-angle camera as well as computed camera intrinsic params so that such distortions can be undone. There are two far wide-angle cameras used in recording. The checkboard images of the far wide-angle camera used in the room which index is greater than or equal to 50 are store in the “checkboard_images/room_ge_50” folder while the images which index is less than 50 are store in the “checkboard_images/room_lt_50” folder.
+						</p>
+						<p>The audio data, video data and the transcriptions follow this directory structure. Each audio/video/transcription directory has subdirectories for training, development, and evaluation sets. Each train/dev/eval directory has subdirectories for far, middle, and near field recording device in the audio directory. Each train/dev/eval directory has subdirectories for far and middle field recording device in the video directory.</p>
+						<center>
+							<figure style="padding:0px;border:0px; margin:10px">
+                            <img src="images/Fig4.png" style="width:50%;padding:0px;border:0" />
+                            </figure>
+						</center>
+						<p><b>Audio</b></p>
+						<p>
+							All audio data are distributed as WAV files with a sampling rate of 16 kHz. Each session consists of the recordings made by the far-field linear microphone array with 6 microphones, the middle-field linear microphone array with 2 microphones and the near-field high-fidelity microphones worn by each participant. These WAV files are named as follows:</br>
+							Far-field array microphone:</br>
+							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Far_< Channel ID >.wav</br>
+							Middle-field array microphone:</br>
+							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Middle_< Channel ID >.wav</br>
+							Near-field high-fidelity microphone:</br>
+							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Near_< Speaker ID >.wav
+						</p>
+						<p><b>Video</b></p>
+						<p>
+							All video data are distributed as MP4 files with a frame rate of 25 fps. Each session consists of the recordings made by the far-field wide-angle camera and the middle-field high-definition cameras worn by each participant. These MP4 files are named as follows:</br>
+							Far-field wide-angle camera (1080p):</br>
+							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Far.mp4</br>
+							Middle-field high-definition camera (720p):</br>
+							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Middle_< Speaker ID >.mp4
+						</p>
+
+						<p>
+							The transcriptions are provided in TextGrid format for each speaker in each session. We use speech signal recorded by the near-field high-fidelity microphone to manual transcription. After manual rechecking, the transcription accuracy rate is as high as 99% or more. The TextGrid files are named as < Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Near_< Speaker ID >.TextGrid. The TextGrid file includes the following pieces of information for each utterance:
+							<ul>
+								<li>Start time ("start_time")</li>
+								<li>End time ("end_time")</li>
+								<li>Transcription ("Chinese characters")</li>
+							</ul>
+						</p>
+
+						<p>
+							In order to cover the real scene comprehensively and evenly, we designed the following recording configuration by controlling variables as in Table 1.
+						</p>
+						<center>
+							<table  class='default'>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">Config ID</th>
+							        <th style="border: solid 1px;">Time</th>
+							        <th style="border: solid 1px;">Content</th>
+							        <th style="border: solid 1px;">Light</th>
+							        <th style="border: solid 1px;">TV</th>
+							        <th style="border: solid 1px;">Group</th>
+							    </tr> 
+							    <tr style="vertical-align: center; border: solid 1px;">
+							        <th style="border: solid 1px;">00</th>
+							        <td rowspan="9" valign="middle" style="border: solid 1px;">Day</td>
+							        <td style="border: solid 1px;">Wake word & Similar words</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">1</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">01</th>
+							        <td rowspan="12" valign="middle" style="border: solid 1px;">Talk freely</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">1</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">02</th>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">1</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">03</th>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">2</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">04</th>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">2</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">05</th>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">2</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">06</th>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">2</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">07</th>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">1</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">08</th>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">1</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">09</th>
+							        <td rowspan="4" valign="middle" style="border: solid 1px;">Night</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">1</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">10</th>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">2</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">11</th>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">2</td>
+							    </tr>
+							    <tr style="border: solid 1px;">
+							        <th style="border: solid 1px;">12</th>
+							        <td style="border: solid 1px;">on</td>
+							        <td style="border: solid 1px;">off</td>
+							        <td style="border: solid 1px;">1</td>
+							    </tr>
+							    <tr>
+							        <th colspan="12" style="border: solid 1px;">Tab.5. Configuration</th>
+							    </tr>
+							</table>
+						</center>
+
+						<p>
+							"Time" refers to the recording time, the value is day or night. "Content" refers to the speaking content. We also recorded some data only containing wake-up/similar word to support audio-visual voice wake-up task. "Light" refers to turning on/off the light. "TV" refers to turning on/off the TV. "Group" refers to how much groups of participants in a conversation.</br>
+							By observing the real conversations these were taking place in real living room, we found that the participants would be divided into several groups to discuss different topics. Compared with all participants discussing the same topic, grouping would result in higher overlap ratios. We found that average speech overlap ratios of 𝐺𝑟𝑜𝑢𝑝 = 1 and 𝐺𝑟𝑜𝑢𝑝 = 2 are 10%~20% and 50%~70%, respectively. And the number of groups greater than 3 is very rare when the number of participants is no more than 6.
+						</p>
+					</div>
+				</section>
+
+			<!-- Gigantic Heading -->
+
+			<!-- Footer -->
+				<div id="footer">
+					<!-- Copyright -->
+						<div class="copyright">
+							<ul class="menu">
+								<li>&copy; All rights reserved</li><li>E-mail: mispchallenge@gmail.com</li>
+							</ul>
+						</div>
+
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

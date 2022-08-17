@@ -1,0 +1,327 @@
+<!DOCTYPE HTML>
+<!--
+	Arcana by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<style>
+div.ml1 {
+  margin-left: 30px;
+}
+ul.a {list-style-type: circle;}
+ul.b {list-style-type: square;}
+ul.c {list-style-type: square;}
+</style>
+<html>
+	<head>
+		<title>Challenge-Task1 Software</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Logo -->
+					<img src="images/isca.png" width="6%" height="6%" style="margin:0 77% 0 0;"><h1 style="font-size: 120%;  margin: -4% 0 -2% 0"><a href="index.html" id="logo">Multimodal Information Based Speech Processing (MISP) Challenge 2021</a><img src="images/ieee.png" width="7%" height="7%" style="margin:-15% 0% 1% 79%;"></h1>
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="overview.html">Overview</a><li>
+								<li class="current">
+									<a href="#">Task1</a>
+									<ul>
+										<li><a href="task1_instructions.html">Instructions</a></li>										
+										<li><a href="task1_data.html">Data</a></li>
+										<li><a href="task1_software.html">Software</a></li>
+						        <li><a href="task1_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">Task2</a>
+									<ul>
+										<li><a href="task2_instructions.html">Instructions</a></li>										
+										<li><a href="task2_data.html">Data</a></li>
+										<li><a href="task2_software.html">Software</a></li>
+						        <li><a href="task2_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li><a href="download.html">Registration</a></li>
+								<li><a href="extral_data.html">Extral Data</a></li>
+								<!-- <li><a href="results.html">Results</a></li> -->
+								<!-- <li><a href="contact.html">Contact</a></li> -->
+							</ul>
+						</nav>
+
+				</div>
+
+			<!-- Main -->
+
+			<section class="wrapper style1">
+					<div class="container">
+						<h1 style="font-size: 150%;">Wake Word Spottig (WWS) Baseline</h1>
+						<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2021_baseline/tree/master/task1_wws"> Github link </a></p>
+						<p></p>
+						<ul>
+						<li>
+						<p><strong>Introduction</strong></p>
+						<p>This is the baseline system for the Multimodal Information Based Speech Processing Challenge 2021 (MISP2021) challenge task 1. This task concerns the identification of predefined wake word(s) in utterances. ‘1’ indicates that the sample contains wake word, and ‘0’ indicates the opposite. For a more detailed description see MISP Challenge task description.</p>
+						</li>
+						<li>
+						<p><strong>System description</strong></p>
+						<p>The audio system implements a neural network (NN) based approach, where filter bank features are first extracted for each sample, and a network consisting of CNN layers, LSTM layer and fully connected layers are trained to assign labels to the audio samples.</p>
+						<p>For the video system, the same network structure is adopted as the audio network. Only middle field video is used to train the video system.</p>
+						<p>For fusion, we consider late fusion, that is, the mean of the a posteriori probability of the network output of audio and video is used to calculate the final score.</p>
+						</li>
+						<li>
+						<p><strong>Preparation</strong></p>
+						<ul class="a">
+						<li>
+						<p><strong>prepare data directory</strong></p>
+						<p>For training, development, and test sets, we prepare data directories by extracting the downloaded zip compressed file to the current folder. Here, we only selected the channel 1.</p>
+						<p><code>  unzip  -d ./  *.zip</br>
+
+						  *.zip indicates the file name that needs to be unzipped</code></p>
+						</li>
+						<li>
+						<p><strong>speech augmentation</strong> </p>
+						<p>Simulating reverberant and noisy data from near field speech, noise is widely adopted. We provide a baseline speech simulation tool to add reverberation and noise for speech augmentation. Considering that the negative samples are easier to obtain, we simulate all positive samples and partial negative samples (listed in file <a href="https://github.com/mispchallenge/misp2021_baseline/blob/master/task1_wws/data_prepare/negative_simulation.scp">data_prepare/negative_simulation.scp</a>). Here, we only use channel 1 for simulation.</p>
+						<ul class="b">
+						<li>
+						<p><strong>add reverberation</strong></p>
+						<p>An open-source toolkit <a href="https://github.com/LCAV/pyroomacoustics">pyroomacoustic</a> is used to add reverberation. The room impulsive response (RIR) is generated according to the actual room size and microphone position.</p>
+						</li>
+						<li>
+						<p><strong>add noise</strong></p>
+						<p>We provide a simple tool to add noise with different signal-to-noise ratio. In our configuration, the reverberated speech is corrupted by the collected noise at seven signal-to-noise ratios (from -15dB to 15dB with a step of 5dB).</p>
+						</li>
+						<li>
+						<p><strong>download the pretrained model</strong></p>
+						<p><code>dropbox url:https://www.dropbox.com/s/4pe3j2swf2cwvik/lipreading_LRW.pt?dl=0</br>
+						verification code: zxzs23</code></p>
+
+						 <p><code> Baidu clouddisk url：https://pan.baidu.com/s/1SeJyQ3aBsGz2O_YCU3X1LQ</br>
+							verification code：4chh</code></p>
+						<p>The pretrained model needs to be placed on the spectific path</p>
+						<p><code>${task1_baseline}/kws_net_only_video/model/pretrained/lipreading_LRW.pt</br></code></p>
+						</li>
+						<li>
+						<p><strong>download coordinate information used to crop ROI</strong></p>
+						<ul>
+						<li>
+						<p><strong>mid-field</strong></p>
+						<p>dropbox url:https://www.dropbox.com/s/g6pst3fr5a13m8y/misp2021_task1_roi_midfield.zip?dl=0</br>
+								verification code: zxzs23</p>
+						<p>Baidu Netdisk url：https://pan.baidu.com/s/1XSWBDx08EQR3aP1j2TXhXg</br>
+							verification code：6pyk </p>
+						<p>MD5：581ec2a5daba9ee16c03ea022577b69a</p>
+						</li>
+						<li>
+						<p><strong>far-field</strong></p>
+						<p>misp2021_task1_roi_farfield.zip</br> 
+						dropbox url:https://www.dropbox.com/s/0gn4djyzsp2yzr1/misp2021_task1_roi_farfield.zip?dl=0</br> 
+						verification code: zxzs</br>    
+						Baidu Netdisk url：https://pan.baidu.com/s/1v5BANcgt1lk8OikUCUxL5g</br> 
+						verification code：zxzs</br> 
+						MD5: b6d84a6aaa10ff5d72d7381c9758860b</p>    
+
+						<p>lip_npy_far.zip</br> 
+						dropbox url:https://www.dropbox.com/s/db68266ck3rlk43/lip_npy_far.zip?dl=0</br> 
+						verification code: zxzs</br> 
+						Baidu Netdisk url：https://pan.baidu.com/s/1v5BANcgt1lk8OikUCUxL5g</br> 
+						verification code：zxzs</br>     
+						MD5：1dbb0f589fff40cbafa0c9be88aa93a3 </p>
+						</li>
+						</li>
+						</ul>
+<!-- 						</li>
+						</ul>
+						</li> -->
+						<li>
+						<p><strong>Audio Wake Word Spotting</strong></p>
+						<p>For features extraction, we employ 40-dimensional filter bank (FBank) features normalized by global mean and variance as the input of the audio WWS system. The final output of the models compared with the preset threshold after sigmoid operation to calculate the false reject rate (FRR) and false alarm rate (FAR). Here comes the results.</p>
+						</li>
+						<li>
+						<p><strong>Video Wake Word Spotting</strong></p>
+						<p>To get visual embeddings, we firstly crop mouth ROIs from video streams, then use the <a href='https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks'>lipreading TCN</a> to extract 512-dimensional features. The extracted features are input into the same network structure as the audio network.</p>
+						</li>
+						</ul>
+
+						<h2>Results</h2>
+						<p>After adjusting different thresholds, the system performances are as follows:</p>
+						<center>
+							<table  class='default'>
+							    <tr>
+							        <th>Modality</th>
+							        <th>Scenario</th>
+							        <th>FRR</th>
+							        <th>FAR</th>
+							        <th>Score</th>
+							    </tr>
+							    <tr>
+							        <td>Audio</td>
+							        <td>Middle</td>
+							        <td>0.07</td>
+							        <td>0.08</td>
+							        <td>0.15</td>
+							    </tr>
+							    <tr>
+							        <td>Audio</td>
+							        <td>Far</td>
+							        <td>0.18</td>
+							        <td>0.09</td>
+							        <td>0.27</td>
+							    </tr>
+							    <tr>
+							        <td>Video</td>
+							        <td>Middle</td>
+							        <td>0.12</td>
+							        <td>0.21</td>
+							        <td>0.33</td>
+							    </tr>
+							    <tr>
+							        <td>Audio-visual</td>
+							        <td>Middle</td>
+							        <td>0.07</td>
+							        <td>0.06</td>
+							        <td>0.13</td>
+							    </tr>
+							    <tr style="border-bottom: solid 1px;">
+							        <td>Audio-visual</td>
+							        <td>Far</td>
+							        <td>0.12</td>
+							        <td>0.14</td>
+							        <td>0.26</td>
+							    </tr>
+							</table>
+						</center>
+
+						<h2>Setting Paths</h2>
+						<ul>
+						<li><strong>data prepare</strong></li>
+						</ul>
+						<div class="ml1">
+						<p><code># Here, the given tool can simulate the positive samples directly. If you need to simulate the negative samples, you need to modify the default configuration.</br>
+						--- data_prepare/run.sh ---</br>
+						# Defining corpus directory</br>
+						data_root=</br>
+						# Defining path to python interpreter</br>
+						python_path=</code></p>
+						</div>
+						<ul>
+						<li><strong>kws_net_only_audio</strong></li>
+						</ul>
+						<div class="ml1">
+						<p><code>--- kws_net_only_audio/run.sh ---</br>
+						# Defining corpus directory</br>
+						data_root=</br>
+						# Defining path to python interpreter</br>
+						python_path=</code></p>
+						</div>
+						<ul>
+						<li><strong>kws_net_only_video</strong></li>
+						</ul>
+						<div class="ml1">
+						<p><code>--- kws_net_only_video/run.sh ---</br>
+						# Defining corpus directory</br>
+						data_root=</br>
+						# Defining path to python interpreter</br>
+						python_path=</code></p>
+						</div>
+
+						<h2>Running the baseline audio system</h2>
+						<ul>
+						<li><strong>Simulation (optional)</strong></li>
+						</ul>
+						<div class="ml1">
+						<p><code>cd data_prepare</br>
+						sh run.sh</code></p>
+						</div>
+						<ul>
+						<li><strong>Run Training</strong></li>
+						</ul>
+						<div class="ml1">
+						<p><code>cd ../kws_net_only_audio</br>
+						sh run.sh</code></p>
+					</div>
+						<ul>
+						<li><strong>Run Video Training</strong></li>
+						</ul>
+						<div class="ml1">
+						<p><code>cd ../kws_net_only_audio</br>
+						sh run.sh</code></p>
+					</div>
+						<ul>
+						<li><strong>Run Fusion</strong></li>
+						</ul>
+						<div class="ml1">
+						<p><code>cd ../kws_net_fusion</br>
+						python fusion.py</code></p>
+					</div>
+						<h2>Requirments</h2>
+						<ul>
+						<li>
+						<p><strong>pytorch</strong></p>
+						</li>
+						<li>
+						<p><strong>python packages:</strong></p>
+						<p>numpy</p>
+						<p><a href="https://github.com/opencv/opencv-python">OpenCV</a></p>
+						<p>tqdm</p>
+						<p><a href="https://github.com/LCAV/pyroomacoustics">pyroomacoustic</a></p>
+						<p><a href="https://github.com/bastibe/python-soundfile">soundfile</a></p>
+						</li>
+						<li>
+						<p><strong>other tools:</strong></p>
+						<p><a href="http://sox.sourceforge.net/">sox</a> </p>
+						</li>
+						</ul>
+					</div>
+				</section>
+
+<!-- 				<section class="wrapper style1">
+					<div class="container">
+						<h1 style="font-size: 150%;">Task1 Software</h1>
+						<p></p>
+					</div>
+				</section>
+
+				<section class="wrapper style2">
+					<div class="container">
+						<h1 style="font-size: 150%;">......</h1>
+					</div>
+				</section>
+
+				<section class="wrapper style1">
+					<div class="container">
+						<h1 style="font-size: 150%;">......</h1>
+					</div>
+				</section> -->
+
+			<!-- Footer -->
+				<div id="footer">
+					<!-- Copyright -->
+						<div class="copyright">
+							<ul class="menu">
+								<li>&copy; All rights reserved</li><li>E-mail: mispchallenge@gmail.com</li>
+							</ul>
+						</div>
+
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

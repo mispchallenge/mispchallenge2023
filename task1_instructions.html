@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<!--
+	Arcana by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MISP Challenge-Task1 Instructions</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Logo -->
+					<img src="images/isca.png" width="6%" height="6%" style="margin:0 77% 0 0;"><h1 style="font-size: 120%;  margin: -4% 0 -2% 0"><a href="index.html" id="logo">Multimodal Information Based Speech Processing (MISP) Challenge 2021</a><img src="images/ieee.png" width="7%" height="7%" style="margin:-15% 0% 1% 79%;"></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="overview.html">Overview</a><li>
+								<li class="current">
+									<a href="#">Task1</a>
+									<ul>
+										<li><a href="task1_instructions.html">Instructions</a></li>
+										<li><a href="task1_data.html">Data</a></li>
+										<li><a href="task1_software.html">Software</a></li>
+						                <li><a href="task1_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li>
+									<a href="#">Task2</a>
+									<ul>
+										<li><a href="task2_instructions.html">Instructions</a></li>
+										<li><a href="task2_data.html">Data</a></li>
+										<li><a href="task2_software.html">Software</a></li>
+						                <li><a href="task2_leaderboard.html">Leaderboard</a></li>
+									</ul>
+								</li>
+								<li><a href="download.html">Registration</a></li>
+								<li><a href="extral_data.html">Extral Data</a></li>
+								<!-- <li><a href="results.html">Results</a></li> -->
+								<!-- <li><a href="contact.html">Contact</a></li> -->
+							</ul>
+						</nav>
+
+				</div>
+
+			<!-- Main -->
+				<section class="wrapper style1">
+					<div class="container">
+						<!-- <h2>Task1 Datasets</h2> -->
+						<h1 style="font-size: 150%;">Task1 Instructions</h1>
+					<h3 style="font-size: 130%;">Evaluation</h3>
+					<p>
+						This is a classification problem. ‘1’ indicates that the current sample contains the wake-up word, and ‘0’ indicates the opposite. We use false reject rate (FRR) and false alarm rate (FAR) on evaluation set as the criterion of the WWS performance. Suppose the test set consists of N<sub>wake</sub> examples with wake word and N<sub>non-wake</sub> examples without wake word, FRR and FAR are defined as follows:
+					</p>
+					<center>
+                        <figure style="padding:0px;border:0px; margin:10px">
+                        <img src="images/Fig7.png" style="width:300px;padding:0px;border:0" />
+                        </figure>
+			        </center>
+			        <p>
+			        	where N<sub>FR</sub> denotes the number of examples including wake-up word but the WWS system gives a negative decision. N<sub>FA</sub> is the number of examples without wake-up word but the WWS system gives a positive decision. The final score of KWS is defined as:
+			        </p>
+			        <center>
+                        <figure style="padding:0px;border:0px; margin:10px">
+                        <img src="images/Fig8.png" style="width:300px;padding:0px;border:0" />
+                        </figure>
+			        </center>
+					<p>
+						FRR and FAR are calculated on all samples in evaluation set and the final rank is Score<sup>WWS</sup>. The system has lower Score<sup>WWS</sup> will be ranked higher.</br> 
+						For training and development sets, we will prepare the scoring script which will be released together with the baseline. For the evaluation test set, the participant should submit a text file to the Kaggle platform which contains classification results for all utterances. And Score<sup>WWS</sup> will be calculated and updated in the leaderboard. Each line of the file should be in the form as < Utterance ID > < 0 or 1 >. Utterance IDs will be provided by the official. ‘0’ and ‘1’ representthe prediction results of the current sample.</br>
+					</p>
+					<p></p>
+					<h3 style="font-size: 110%;">Can I use extra audio/video data?</h3>
+					<p>
+						The use of any external audio data that is not provided by organizers (except for RIR) is strictly prohibited. But use of external slient video data is allowed in the pretrained model training under the following conditions:
+						<ul>
+							<li>The used external resource is clearly referenced and freely accessible to any other research group in the world. External data refers to public datasets or trained models. The data must be public and freely available before the end of the challenge.</li>
+							<li>The list of external data sources used in training must be clearly indicated in the technical report.</li>
+							<li>Participants inform the organizers in advance about such data sources, so that all competitors know about them and have an equal opportunity to use them. Please send an email to the task coordinators; we will update the list of external datasets on the web page accordingly. Once the evaluation set is published, the list of allowed external data resources is locked (no further external sources allowed).</li>
+							
+						</ul>
+						We hope participants will pay more attention to technological innovation, especially audio and video fusion technology, instead of relying on using more data. This is not a pure competition, but a “scientific” challenge activity.
+					</p>
+					<p>
+					</p>
+
+				<h3 style="font-size: 110%;">What can I use?</h3>
+					<p>
+						It is allowed to use the development set to train the WWS model. The exploration of different data augmentation and simulation methods are encouraged to allow the participants to train their models better. In addition, you can use the following annotations for training, development:
+						<ul>
+							<li>the corresponding room sizes</li>
+							<li>the corresponding speaker labels</li>
+						</ul>
+					</p>
+					<p></p>
+
+				<h3 style="font-size: 110%;">Which information shall I not use?</h3>
+					<p>
+						Manual modification of the data is forbidden. All parameters should be tuned on the training set or the development set. Modifications of the development set are allowed, provided that its size remains unchanged and these modifications do not induce the risk of inadvertently biasing the development set toward the particular speakers or acoustic conditions in the evaluation set. For instance, enhancing the signals, applying “unbiased” transformations or automatically refining the utterance start and end times is allowed. Augmenting the development set by applying biased signal transformations (e.g., systematically increasing intensity/pitch), or selecting a subset of the development set is forbidden. In case of doubt, please ask us ahead of the submission deadline.
+					</p>
+					<p></p>
+				<h3 style="font-size: 110%;"></h3>
+					<p>
+						There is also no limitation on WWS model structure and model training technology used by participants. Again, you are entirely free in the development of your system.</br>
+						In particular, you can:</br>
+						<ul>
+							<li>use other video pre-processing methods</li>
+							<li>use other acoustic features and visual features</li>
+							<li>modify the audio/visual/audio-visual model architecture or the training criterion</li>
+
+						</ul>
+					</p>
+					<p></p>
+
+				<h3 style="font-size: 110%;">Which results should I report?</h3>
+					<p>
+						For every tested system, you should report Score<sup>WWS</sup> in both development and evaluation sets.
+
+					</p>
+					<p></p>
+					</div>
+				</section>
+
+
+			<!-- Gigantic Heading -->
+<!-- 				<section class="wrapper style2">
+					<div class="container">
+					</div>
+				</section>
+
+				<section class="wrapper style1">
+					<div class="container">
+						<h1 style="font-size: 150%;">......</h1>
+					</div>
+				</section> -->
+
+			<!-- Footer -->
+				<div id="footer">
+						<div class="copyright">
+							<ul class="menu">
+								<li>&copy; All rights reserved</li><li>E-mail: mispchallenge@gmail.com</li>
+							</ul>
+						</div>
+
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
