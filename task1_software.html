@@ -62,24 +62,24 @@ ul.c {list-style-type: square;}
 			<!-- Main -->
 
 			<section class="wrapper style1">
-					<div class="container">
+					<!-- <div class="container">
 						<h1 style="font-size: 150%;">Wake Word Spottig (WWS) Baseline</h1>
-						<!-- <p>For details, please refer to <a href="https://github.com/mispchallenge/misp2021_baseline/tree/master/task1_wws"> Github link </a></p> -->
+						<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2021_baseline/tree/master/task1_wws"> Github link </a></p>
 						<p></p>
 						<ul>
 						<li>
 						<p><strong>Introduction</strong></p>
-						<!-- <p>This is the baseline system for the Multimodal Information Based Speech Processing Challenge 2021 (MISP2021) challenge task 1. This task concerns the identification of predefined wake word(s) in utterances. ‘1’ indicates that the sample contains wake word, and ‘0’ indicates the opposite. For a more detailed description see MISP Challenge task description.</p>
-						</li> -->
+						<p>This is the baseline system for the Multimodal Information Based Speech Processing Challenge 2021 (MISP2021) challenge task 1. This task concerns the identification of predefined wake word(s) in utterances. ‘1’ indicates that the sample contains wake word, and ‘0’ indicates the opposite. For a more detailed description see MISP Challenge task description.</p>
+						</li>
 						<li>
 						<p><strong>System description</strong></p>
-						<!-- <p>The audio system implements a neural network (NN) based approach, where filter bank features are first extracted for each sample, and a network consisting of CNN layers, LSTM layer and fully connected layers are trained to assign labels to the audio samples.</p>
+						<p>The audio system implements a neural network (NN) based approach, where filter bank features are first extracted for each sample, and a network consisting of CNN layers, LSTM layer and fully connected layers are trained to assign labels to the audio samples.</p>
 						<p>For the video system, the same network structure is adopted as the audio network. Only middle field video is used to train the video system.</p>
-						<p>For fusion, we consider late fusion, that is, the mean of the a posteriori probability of the network output of audio and video is used to calculate the final score.</p> -->
+						<p>For fusion, we consider late fusion, that is, the mean of the a posteriori probability of the network output of audio and video is used to calculate the final score.</p>
 						</li>
 						<li>
 						<p><strong>Preparation</strong></p>
-						<!-- <ul class="a">
+						<ul class="a">
 						<li>
 						<p><strong>prepare data directory</strong></p>
 						<p>For training, development, and test sets, we prepare data directories by extracting the downloaded zip compressed file to the current folder. Here, we only selected the channel 1.</p>
@@ -147,10 +147,10 @@ ul.c {list-style-type: square;}
 						<p><strong>Video Wake Word Spotting</strong></p>
 						<p>To get visual embeddings, we firstly crop mouth ROIs from video streams, then use the <a href='https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks'>lipreading TCN</a> to extract 512-dimensional features. The extracted features are input into the same network structure as the audio network.</p>
 						</li>
-						</ul> -->
+						</ul>
 
 						<h2>Results</h2>
-						<!-- <p>After adjusting different thresholds, the system performances are as follows:</p>
+						<p>After adjusting different thresholds, the system performances are as follows:</p>
 						<center>
 							<table  class='default'>
 							    <tr>
@@ -196,10 +196,10 @@ ul.c {list-style-type: square;}
 							        <td>0.26</td>
 							    </tr>
 							</table>
-						</center> -->
+						</center>
 
 						<h2>Setting Paths</h2>
-						<!-- <ul>
+						<ul>
 						<li><strong>data prepare</strong></li>
 						</ul>
 						<div class="ml1">
@@ -229,10 +229,10 @@ ul.c {list-style-type: square;}
 						data_root=</br>
 						# Defining path to python interpreter</br>
 						python_path=</code></p>
-						</div> -->
+						</div>
 
 						<h2>Running the baseline audio system</h2>
-						<!-- <ul>
+						<ul>
 						<li><strong>Simulation (optional)</strong></li>
 						</ul>
 						<div class="ml1">
