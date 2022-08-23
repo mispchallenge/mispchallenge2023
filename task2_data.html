@@ -44,7 +44,7 @@
 									</ul>
 								</li>
 								<li><a href="download.html">Registration</a></li>
-								<li><a href="extral_data.html">Extral Data</a></li>
+								<!-- <li><a href="extral_data.html">Extral Data</a></li> -->
 								<!-- <li><a href="results.html">Results</a></li> -->
 								<!-- <li><a href="contact.html">Contact</a></li> -->
 							</ul>
@@ -56,9 +56,8 @@
 				<section class="wrapper style1">
 					<div class="container">
 						<h1 style="font-size: 150%;">Task2 Datasets</h1>
-						<p>The challenge uses the MISP2021 dataset which contains 110+ hours of audio-visual data. The dataset includes 340+ sessions. Each session consists of a about 20-minute discussion. The reason why we select an about 20-min duration rather than a longer recording for a session is that we want to alleviate the clock drift problem for synchronizing multiple devices.</p>
-<!-- 						<p>To refer to these data in a publication, please cite:</br>
-						To be announced</p> -->
+						<!-- <p>The challenge uses the MISP2021 dataset which contains 110+ hours of audio-visual data. The dataset includes 340+ sessions. Each session consists of a about 20-minute discussion. The reason why we select an about 20-min duration rather than a longer recording for a session is that we want to alleviate the clock drift problem for synchronizing multiple devices.</p>
+
 						<p>The data have been split into training, development test and evaluation test sets as follows.</p>
 						<center>
 							<table  class='default'>
@@ -118,10 +117,10 @@
 						</center>
 						<p><strong>There isn’t duplicate speaker and room in training, development test and evaluation test sets.For training and development sets,  the released video includes the far scenario and the middle scenario while the released audio includes the far scenario, the middle scenario and the near scenario. But for the evaluation set, we only release the video in far scenario and the audio in far scenario during the challenge.</strong></p>	
 						<p><strong>The release of the evaluation set will use the same directory structure and file name rules as the development set. We will provide an official segment file with each line of content < segment_id > < speaker_id > < wav_name > < start_time > < end_time >. Each line of the final submitted result file is < segment_id > < str >, and the segment_id of the result file must be exactly the same as the official segment file.</strong></p>
-						<p></p>
+						<p></p> -->
 
 						<h3 style="font-size: 120%;">Directory Structure</h3>
-						<p>
+						<!-- <p>
 							There is a pdf file in the top-level directory, called data-specification.pdf, which describes the introduction of the data set. There are two txt files in the “doc” folder, speaker_info.txt describes the gender and age range of every speaker, and room_info.txt describes the size of every room. We also provide checkboard images for each far wide-angle camera as well as computed camera intrinsic params so that such distortions can be undone. There are two far wide-angle cameras used in recording. The checkboard images of the far wide-angle camera used in the room which index is greater than or equal to 50 are store in the “checkboard_images/room_ge_50” folder while the images which index is less than 50 are store in the “checkboard_images/room_lt_50” folder.
 						</p>
 						<p>The audio data, video data and the transcriptions follow this directory structure. Each audio/video/transcription directory has subdirectories for training, development, and evaluation sets. Each train/dev/eval directory has subdirectories for far, middle, and near field recording device in the audio directory. Each train/dev/eval directory has subdirectories for far and middle field recording device in the video directory.</p>
@@ -129,9 +128,9 @@
 							<figure style="padding:0px;border:0px; margin:10px">
                             <img src="images/Fig4.png" style="width:50%;padding:0px;border:0" />
                             </figure>
-						</center>
+						</center> -->
 						<p><b>Audio</b></p>
-						<p>
+						<!-- <p>
 							All audio data are distributed as WAV files with a sampling rate of 16 kHz. Each session consists of the recordings made by the far-field linear microphone array with 6 microphones, the middle-field linear microphone array with 2 microphones and the near-field high-fidelity microphones worn by each participant. These WAV files are named as follows:</br>
 							Far-field array microphone:</br>
 							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Far_< Channel ID >.wav</br>
@@ -139,9 +138,9 @@
 							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Middle_< Channel ID >.wav</br>
 							Near-field high-fidelity microphone:</br>
 							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Near_< Speaker ID >.wav
-						</p>
+						</p> -->
 						<p><b>Video</b></p>
-						<p>
+						<!-- <p>
 							All video data are distributed as MP4 files with a frame rate of 25 fps. Each session consists of the recordings made by the far-field wide-angle camera and the middle-field high-definition cameras worn by each participant. These MP4 files are named as follows:</br>
 							Far-field wide-angle camera (1080p):</br>
 							< Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Far.mp4</br>
@@ -262,7 +261,7 @@
 						<p>
 							"Time" refers to the recording time, the value is day or night. "Content" refers to the speaking content. We also recorded some data only containing wake-up/similar word to support audio-visual voice wake-up task. "Light" refers to turning on/off the light. "TV" refers to turning on/off the TV. "Group" refers to how much groups of participants in a conversation.</br>
 							By observing the real conversations these were taking place in real living room, we found that the participants would be divided into several groups to discuss different topics. Compared with all participants discussing the same topic, grouping would result in higher overlap ratios. We found that average speech overlap ratios of 𝐺𝑟𝑜𝑢𝑝 = 1 and 𝐺𝑟𝑜𝑢𝑝 = 2 are 10%~20% and 50%~70%, respectively. And the number of groups greater than 3 is very rare when the number of participants is no more than 6.
-						</p>
+						</p> -->
 					</div>
 				</section>
 
