@@ -57,7 +57,7 @@
 									</ul>
 								</li> -->
 								<li><a href="download.html">Registration</a></li>
-								<!-- <li><a href="extral_data.html">Extral Data</a></li> -->
+								<li><a href="extral_data.html">Extral Data</a></li>
 								<!-- <li><a href="contact.html">Contact</a></li> -->
 							</ul>
 						</nav>
@@ -66,38 +66,51 @@
 			<!-- Main -->
 				<section class="wrapper style1">
 					<div class="container">
-						<!-- <h2>Task1 Datasets</h2> -->
+						
 						<h1 style="font-size: 150%;">Task2 Instructions</h1>
-						<!-- <h3 style="font-size: 130%;">Evaluation</h3>
-						<p>
-						In this Challenge, we adopt Chinese Character Error Rate (CCER) as an official metric for our ranking. CCER calculation is based on the concept of Levenshtein distance, where we count the minimum number of character-level operations required to transform the recognition output into the ground truth text. It is represented with this formula:</br>
-						<center>
-	                        <figure style="padding:0px;border:0px; margin:10px">
-	                        <img src="images/Fig5.png" style="width:200px;padding:0px;border:0" />
-	                        </figure>
-			       		</center>
-						where:</br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S = Number of Substitutions</br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D = Number of Deletions</br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I = Number of Insertions</br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N = Number of characters in ground truth</br>
-						The lower CCER value (with 0 being a perfect score), the better the recognition performance. Due to multi-speaker interaction in our scenario, there exist the speech segments with multiple speakers talking simultaneously. For such speech overlap segment, we calculate all the S/I/D errors based on the recognition results and the ground truth for each speaker based on the oracle speaker diarization results.
-						</p>
+						<p>Audio-visual diarization and recognition (AVDR) focus on addressing “who spoken what when” using audio and video data. Different from previous challenge, the track 2 of MISP2022 Challenge is an extended task from audio-visual speech recognition (AVSR) in MISP2021 by replacing oracle speaker diarization results with audio-visual speaker diarization (AVSD) results.</p>
+						<p>In this Challenge, we adopt concatenated minimum permutation character error rate (cpCER) as an official metric for our ranking. The calculation of cpCER is divided into three steps.</p>
+						
 
-						<p>
-							For training and development test sets, we will prepare the scoring script which will be released together with the baseline. For the evaluation test set, the participant should submit a text file to the Kaggle platform which contains recognition results for all utterances. And CCER will be calculated and updated in the leaderboard. Each line of the file should be in the form as < Utterance ID > < Chinese characters sequence >. Utterance IDs will be provided by the official.
-						</p>
+						<h1 style="font-size: 150%;">Evaluation</h1>
+						<p>In this Challenge, we adopt concatenated minimum permutation character error rate (cpCER) as an official metric for our ranking. The calculation of cpCER is divided into three steps.</p>
+						<ol>
+					        <li>Recognition results and reference transcriptions belonging to the same speaker are concatenated on the timeline in a session.</li>
+							<li>The character error rate (CER) of permutations of speakers is calculated as follows:</li>
+							<center>
+								<figure style="padding:0px;border:0px; margin:10px">
+								<img src="images/CER.png" style="width:300px;padding:0px;border:0" />
+								</figure>
+							</center>
+							<p>where:</p>
+							<ul>
+								<li>S = Number of Substitutions</li>
+								<li>D = Number of Deletions</li>
+								<li>I = Number of Insertions</li>
+								<li>N = Number of characters in ground truth</li>
+							</ul>
+							<li>Select the lowest CER as the cpCER in the session.</li>
+						</ol>
 
-						<h3 style="font-size: 110%;">Can I use extra audio/video/text data?</h3>
-						<p>External text and audio are not allowed to be used during the language model training and the acoustic model training. But use of external slient video data is allowed in the pretrained model training under the following conditions:</p>
+						
+						<p>Due to the problem of permutation invariant training (PIT) and annotated segment text correspondence, we adopt cpCER as the final evaluation metric. The lower cpCER value (with 0 being a perfect score), the better the diarization and recognition performance.</p>
+						<p>For training and development test sets, we will prepare the scoring script which will be released together with the baseline. For the evaluation test set, the participant should submit a text file for each session to the Kaggle platform which contains recognition results. And cpCER will be calculated and updated in the leaderboard. Each line of the file should be in the form as < Utterance ID > < Chinese characters sequence >. Utterance IDs will be provided by the official.</p>
+
+
+						<h1 style="font-size: 150%;">Can I use extra audio/video/text data?</h1>
+						<p>If participants use separate AVSD and AVSR systems, external audio and video data can be used to train the AVSD model. No external audio data can be used for training the AVSR systems; Only external silent video data is allowed for pre-training the AVSR model.</p>
+						<p>If participants use other model architectures, only external silent video data can be used.</p>
+						<p>But use of external slient video data is allowed in the pretrained model training under the following conditions:</p>
 						<ul>
-					        <li>The used external resource is clearly referenced and freely accessible to any other research group in the world. External data refers to public datasets or trained models. The data must be public and freely available before 3rd of February 2022.</li>
+							<li>The used external resource is clearly referenced and freely accessible to any other research group in the world. External data refers to public datasets or trained models. The data must be public and freely available before 28th of February 2023.</li>
 							<li>The list of external data sources used in training must be clearly indicated in the technical report.</li>
 							<li>Participants inform the organizers in advance about such data sources, so that all competitors know about them and have an equal opportunity to use them. Please send an email to the task coordinators; we will update the list of external datasets on the webpage accordingly. Once the evaluation set is published, the list of allowed external data resources is locked (no further external sources allowed).</li>
 						</ul>
-							We hope participants will pay more attention to technological innovation, especially audio and video fusion technology, instead of relying on using more data. This is not a pure competition, but a “scientific” challenge activity. There are similar rules in CHiME-5/6 challenge, too.
-						<p></p>
-						<h3 style="font-size: 110%;">Which information can I use?</h3>
+
+						<p>We hope participants will pay more attention to technological innovation, especially novel model architectures, instead of relying on using more data. This is not a pure competition, but a “scientific” challenge activity. There are similar rules in CHiME-5/6 challenge, too.</p>
+
+
+						<h1 style="font-size: 150%;">Which information can I use?</h1>
 						<p>You can use the following annotations for training, development, and evaluation:</p>
 						<ul>
 					        <li>the corresponding room sizes</li>
@@ -106,13 +119,15 @@
 							<li>the start and end times of all utterances</li>
 						</ul>
 						<p>For training and development, you can use the full-length recordings of all recording devices. For evaluation, you are allowed to use for a given utterance the full-length recordings of far-field devices (both the linear 6 microphones array and the wide-angle camera) for that session.</p>
-						<p></p>
-						<h3 style="font-size: 110%;">Which information shall I not use?</h3>
+
+
+						<h1 style="font-size: 150%;">Which information shall I not use?</h1>
 						<p>Manual modification of the data or the annotations (e.g., manual refinement of the utterance start and end times) is forbidden. All parameters should be tuned on the training set or the development set. Modifications of the development set are allowed, provided that its size remains unchanged and these modifications do not induce the risk of inadvertently biasing the development set toward the particular speakers or acoustic conditions in the evaluation set. For instance, enhancing the signals, applying “unbiased” transformations or automatically refining the utterance start and end times is allowed. Augmenting the development set by generating simulated data, applying biased signal transformations (e.g., systematically increasing intensity/pitch), or selecting a subset of the development set is forbidden. In case of doubt, please ask us ahead of the submission deadline.</p>
-						<p></p>
-						<h3 style="font-size: 110%; margin:40 0 0 0;">Can I use a recognizer or overall system different from those in the official baseline pipeline?</h3>
-						<p>Again, you are entirely free in the development of your system.<br /> 
-						In particular, you can:</p>
+						
+
+						<h1 style="font-size: 150%;">Can I use the AVDR system different from that in the official baseline pipeline?</h1>
+						<p>Again, you are entirely free in the development of your system.</p>
+						<p>In particular, you can:</p>
 						<ul>
 					        <li>include a single-channel or multi-channel audio enhancement front-end</li>
 							<li>include a video pre-processing</li>
@@ -121,11 +136,11 @@
 							<li>modify the lexicon and the language model</li>
 							<li>use any rescoring technique</li>
 						</ul>
-						<p></p>
-						<h3 style="font-size: 110%;">Which results should I report?</h3>
-						<p>For every tested system, you should report CCER in both development and evaluation sets (%).</p>
 
-					</div> -->
+
+						<h1 style="font-size: 150%;">Which results should I report?</h1>
+						<p>For every tested system, you should report cpCER in both development and evaluation sets (%).</p>
+
 				</section>
 
 
