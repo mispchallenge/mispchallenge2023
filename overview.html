@@ -74,14 +74,8 @@
 										<h1 style="font-size: 150%;">Background</h1>
 <!--                    <h3>Background</h3>-->
                   					</header>
-										<p>With the emergence of many speech-enable applications, the scenarios (e.g., home and meeting)
-											are becoming increasingly challenging due to the factors of adverse acoustic environments
-											(far-field audio, background noises, and reverberations) and conversational multi-speaker interactions
-											with a large portion of speech overlaps. The state-of-the-art speech processing techniques based on
-											the single audio modality encounter the performance bottlenecks, e.g., yielding the word error rate
-											of about 40% in CHiME-6 dinner party scenario. Motivated by this, the MISP challenge aims to tackle
-											these problems by introducing additional modality information (such as video or text),
-											yielding better environmental and speaker robustness in realistic applications.</p>
+										<p>With the emergence of many speech-enable applications, the scenarios (e.g., home and meeting) are becoming increasingly challenging due to the factors of adverse acoustic environments (far-field audio, background noises, and reverberations) and conversational multi-speaker interactions with a large portion of speech overlaps. The state-of-the-art speech processing techniques based on the single audio modality encounter the performance bottlenecks, e.g., yielding the word error rate of about 40% in CHiME-6 dinner party scenario. Motivated by this, the MISP challenge aims to tackle these problems by introducing additional modality information (such as video or text), yielding better environmental and speaker robustness in realistic applications.</p>
+										<p>For the MISP challenge, we target the home TV scenario, where several people are chatting in Chinese while watching TV in the living room and they can interact with a smart speaker/TV. As the new features, the carefully selected far-field/mid-field/near-field microphone arrays and cameras are arranged to collect both audio and video data, respectively. Also the time synchronizations among different microphone arrays and video cameras are well designed for conducting the research on the multi-modality fusion. With the success of MISP 2021 challenge, audio-visual diarization and recognition (AVSR) with oracle speaker diarization have been proposed. However, considering the lack of the correspondence between speech segments and speakers in real-world scenes, the MISP 2022 challenge targets the problem of audio-visual speaker diarization (AVSD), and audio-visual diarization and recognition (AVDR) in everyday home environments. How to leverage on both audio and video data to improve the environmental robustness is quite interesting. The researchers from both academia and industry are warmly welcome to work on our two audio-visual tasks (with details as below) for promoting the research of speech processing using multimodal information to cross the practical threshold of realistic applications in challenging scenarios. All approaches are encouraged, whether they are emerging or established, and whether they rely on signal processing or machine learning.</p>
 
 						</div>
 					</div>
@@ -111,9 +105,11 @@
 			            </center>
 
 
-			            <p>We aim to support the research about audio-visual speech processing in the Home TV scene by providing the first large-scale audio-visual corpus of multi-speaker conversational speech recorded via multi-microphone hardware in real living rooms.</p>
-			            <p>An example of the recording scene is shown in Fig.1. Subfigure a is a schematic diagram, six participants are chatting while multiple devices are used to record audio and video in parallel. Subfigure b is a real shot of the recording scene.</p>
-			            <p>There still are some variables in the conversation that is taking place in real living room, for example, the TV is turned on/off, the conversation is happened during the day or night, etc. Specifically, by observing the real conversations these were taking place in real living room, we found that the participants would be divided into several groups to discuss different topics. Compared with all participants discussing the same topic, grouping would result in higher overlap ratios. We control the above variables to cover the real scene comprehensively and evenly during the recording.</p>
+			            <p>We consider the following scenario: several people are chatting while watching TV in the living room, and they can interact with a smart speaker/TV. With the multimodal data collected by microphones and cameras, we can conduct the research to solve the following two speech processing tasks:</p>
+						<ol type="a">
+					        <li>Audio-Visual Speaker Diarization</li>
+							<li>Audio-Visual Diarization and Recognition</li>
+						</ol>
 					</div>
 				</section> 
 
