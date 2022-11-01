@@ -77,50 +77,50 @@ ul.a {list-style-type: circle;}
 						<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2022 baseline"> Github link </a></p>
 
 						<h1 style="font-size: 120%;">Training</h1>
-						<ul class="a">
-							<li><strong>AVSD module</strong></li>
-						</ul>
-						<p>The training of AVSD module is consistent with the track1.</p>
-						<ul class="a">
-							<li><strong>AVSR module</strong></li>
-						</ul>
-						<p>The training of AVSR module using the oracle diarization results.</p>
 
 						<ul>
-											
-						<li>
-						<p><strong>Data preparation</strong></p>
-						<ul class="a">
-						<li><strong>speech enhancement</strong></li>
-						</ul>
-						<p>We provide two baseline speech enhancement front-ends, Weighted Prediction Error(WPE) dereverberation and weighted delay-and-sum(DAS) beamforming, to reduce reverberations and noises of speech signals. These two algorithms are implemented with open-source toolkits, <a href="https://github.com/fgnt/nara_wpe">nara_wpe</a> and <a href="https://github.com/xanguera/BeamformIt">BeamformIt</a>, respectively.</p>
-						<ul class="a">
-						<li><strong>prepare data and language directory for kaldi</strong></li>
-						</ul>
-						<p>For training, development, and test sets, we prepare data directories and the lexicon in the format expected by  <a href="http://kaldi-asr.org/doc/data_prep.html">kaldi</a> respectively. Note that we choose <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> raw resource and convert it to kaldi lexicon format.</p>
-						</li>
+					        <li><strong>AVSD module</strong></li>
+							<p>The training of AVSD module is consistent with the track1.</p>
 
-						<li>
-						<p><strong>Language model</strong></p>
-						<p>We segment MISP speech transcription for language model training by applying <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> as dict and <a href="https://github.com/fxsjy/jieba">Jieba</a> open-source toolkit. For the language model, we choose a maximum entropy-based 3-gram model, which achieves the best perplexity, from n-gram(n=2,3,4) models trained on MISP speech transcripts with different smoothing algorithms and parameters sets. And the selected 3-gram model has 516600 unigrams, 432247 bigrams, and 915962 trigrams respectively.  Note that the temporary and final language models are stored in /data/srilm.</p>
-						</li>
-						<li>
-						<p><strong>Acoustic model</strong></p>
-						<p>The acoustic model of the AVSR system is built largely following the <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/chen22o_interspeech.pdf">paper</a> recipes which mainly contain two stages: GMM-HMM state model and DNN-HMM model.</p>
-						<ul class="a">
-						<li>
-						<p><strong>GMM-HMM</strong></p>
-						<p>For features extraction, we extract 13-dimensional MFCC features plus 3-dimensional pitches. As a start point for triphone models, a monophone model is trained on a subset of 50k utterances. Then a small triphone model and a larger triphone model are consecutively trained using delta features on a subset of 100k utterances and the whole dataset respectively. In the third triphone model training process, an MLLT-based global transform is estimated iteratively on the top of LDA feature to extract independent speaker features. For the fourth triphone model, feature space maximum likelihood linear regression (fMLLR) with speaker adaptive training (SAT) is applied in the training.</p>
-						</li>
-						<li>
-						<p><strong>DNN-HMM</strong></p>
-						<p>Based on the tied-triphone state alignments from GMM, DNN is configured and trained to replace GMM. The audio features are 40-dimensional MFCC features with cepstral normalization. The visual features are the Lip ROIs cropped from the video. A deep neural networkk-hidden markov model (DNN-HMM) baseline is adopted in the system, and you can consult the <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/chen22o_interspeech.pdf">paper </a>for more details.</p>
-						</li>
-						</ul>
-						</li>
+							<li><strong>AVSR module</strong></li>
+							<p>The training of AVSR module using the oracle diarization results.</p>
+							<ol type="a">
+								<li><strong>Data preparation</strong></li>
+								<ul>
+									<li><strong>speech enhancement</strong></li>
+									<p>We provide two baseline speech enhancement front-ends, Weighted Prediction Error(WPE) dereverberation and weighted delay-and-sum(DAS) beamforming, to reduce reverberations and noises of speech signals. These two algorithms are implemented with open-source toolkits, <a href="https://github.com/fgnt/nara_wpe">nara_wpe</a> and <a href="https://github.com/xanguera/BeamformIt">BeamformIt</a>, respectively.</p>
+								</ul>
+								
+								<ul>
+									<li><strong>prepare data and language directory for kaldi</strong></li>
+									<p>For training, development, and test sets, we prepare data directories and the lexicon in the format expected by  <a href="http://kaldi-asr.org/doc/data_prep.html">kaldi</a> respectively. Note that we choose <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> raw resource and convert it to kaldi lexicon format.</p>
+								</ul>
 
-						<li>
-						<p><strong>Inference</strong></p>
+								<li>
+									<p><strong>Language model</strong></p>
+									<p>We segment MISP speech transcription for language model training by applying <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> as dict and <a href="https://github.com/fxsjy/jieba">Jieba</a> open-source toolkit. For the language model, we choose a maximum entropy-based 3-gram model, which achieves the best perplexity, from n-gram(n=2,3,4) models trained on MISP speech transcripts with different smoothing algorithms and parameters sets. And the selected 3-gram model has 516600 unigrams, 432247 bigrams, and 915962 trigrams respectively.  Note that the temporary and final language models are stored in /data/srilm.</p>
+								</li>
+
+								<li>
+									<p><strong>Acoustic model</strong></p>
+									<p>The acoustic model of the AVSR system is built largely following the <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/chen22o_interspeech.pdf">paper</a> recipes which mainly contain two stages: GMM-HMM state model and DNN-HMM model.</p>
+									
+									<ul>
+										<li><strong>GMM-HMM</strong></li>
+										<p>For features extraction, we extract 13-dimensional MFCC features plus 3-dimensional pitches. As a start point for triphone models, a monophone model is trained on a subset of 50k utterances. Then a small triphone model and a larger triphone model are consecutively trained using delta features on a subset of 100k utterances and the whole dataset respectively. In the third triphone model training process, an MLLT-based global transform is estimated iteratively on the top of LDA feature to extract independent speaker features. For the fourth triphone model, feature space maximum likelihood linear regression (fMLLR) with speaker adaptive training (SAT) is applied in the training.</p>
+									</ul>
+									
+									<ul>
+										<li><strong>DNN-HMM</strong></li>
+										<p>Based on the tied-triphone state alignments from GMM, DNN is configured and trained to replace GMM. The audio features are 40-dimensional MFCC features with cepstral normalization. The visual features are the Lip ROIs cropped from the video. A deep neural networkk-hidden markov model (DNN-HMM) baseline is adopted in the system, and you can consult the <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/chen22o_interspeech.pdf">paper </a>for more details.</p>
+									</ul>
+
+								</li>
+							</ol>
+						</ul>
+
+
+						<h1 style="font-size: 120%;">Inference</h1>
 						<p>The RTTM file as the output of the AVSD module contains the information of the Session, SPK, T<sup>start</sup>, and T<sup>dur</sup>.</p>
 						<p>where:</p>
 						<ul>
@@ -130,9 +130,8 @@ ul.a {list-style-type: circle;}
 							<li>T<sub>j</sub><sup>dur</sup>: the duration of the j-th utterance for SPK<sub>i</sub></li>
 						</ul>
 						<p>During the inference, the RTTM file is used for segmenting audio and video data in AVSR module.</p>
-						</li>
-						</ul>
-						<p></p>
+
+
 					</div>
 				</section>
 
