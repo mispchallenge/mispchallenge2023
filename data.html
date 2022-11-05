@@ -66,17 +66,45 @@
 			<!-- Main -->
 				<section class="wrapper style1">
 					<div class="container">
-	
+						<p>In the MISP 2021 challenge, we released a large multi-microphone conversational audio-visual corpus. This corpus focus on the home-TV scenarios: 2-6 people communicating each other with TV noise in the background. The detailed scenario and recording setup can be found in the first paper. In the follow-up work, we have resolved authorization and storage issues to fully release the updated corpus of MISP2021 Challenge to all researchers. The detailed description of the updated dataset is published in the second paper.</p>
+						<!-- <p></br></p> -->
+						<ol>
+							<li><a href="https://ieeexplore.ieee.org/abstract/document/9746683">The First Multimodal Information Based Speech Processing (MISP) Challenge: Data, Tasks, Baselines and Results</a></li>
+							<p>
+								Please cite the following paper:</br>
+								<font size="4">
+									@INPROCEEDINGS{chen2022misp,</br>
+									author={Chen, Hang and Zhou, Hengshun and Du, Jun and Lee, Chin-Hui and Chen, Jingdong and Watanabe, Shinji and Siniscalchi, Sabato Marco and Scharenborg, Odette and Liu, Di-Yuan and Yin, Bao-Cai and Pan, Jia and Gao, Jian-Qing and Liu, Cong},</br>
+									booktitle={Proc. ICASSP 2022},</br> 
+									title={The First Multimodal Information Based Speech Processing (MISP) Challenge: Data, Tasks, Baselines and Results}, </br>
+									year={2022}}
+								</font>
+							</p>
+
+							<li><a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/chen22o_interspeech.pdf">Audio-Visual Speech Recognition in MISP2021 Challenge: Dataset Release and Deep Analysis</a></li>
+							<p>
+								Please cite the following paper:</br>
+								<font size="4">
+									@INPROCEEDINGS{2022misptask2,</br>
+									author={Chen, Hang and Du, Jun and Dai, Yusheng and Lee, Chin-Hui and  Siniscalchi, Sabato Marco and Watanabe, Shinji and Scharenborg, Odette and Chen, Jingdong and Yin, Bao-Cai and Pan, jia},</br>
+									booktitle={Proc. INTERSPEECH 2022},</br> 
+									title={Audio-Visual Speech Recognition in MISP2021 Challenge: Dataset Release and Deep Analysis}, </br>
+									year={2022}}</br>
+								</font>
+							</p>
+						</ol>
+						<p>For the MISP 2022 challenge, our training set is the same as that mentioned in the second paper, and our new development set is selected from the development and evaluation sets of the MISP 2021 challenge. In addition, we will also release a new evaluation set, which has no duplicate speakers compared with other sets.</p>
+
 						<p>
                             The challenge uses the MISP2022 dataset which contains 100+ hours of audio-visual data. The dataset includes 320+ sessions. Each session consists of a about 20-minutes discussion. The reason why we select an about 20-min duration rather than a longer recording for a session is that we want to alleviate the clock drift problem for synchronizing multiple devices.
                         </p>
                         <p>The data have been split into training, development, and evaluation sets as follows (evaluation set will be released later).</p>
 						<center>
 							<figure style="padding:0px;border:0px; margin:10px">
-								<img src="images/track1&2_data.png" style="width:800px;padding:0px;border:0" />
+								<img src="images/track1&2_data.png" style="width:600px;padding:0px;border:0" />
 							</figure>
 						</center>
-						<p>There isn’t duplicate speaker and room in training, development and evaluation sets. For training set, the released video includes the far scenario and the middle scenario while the released audio includes the far scenario, the middle scenario and the near scenario. But for the development and evaluation sets, we only release the video in far scenario and the audio in far scenario during the challenge.</p>	
+						<p>For training set, the released video includes the far scenario and the middle scenario while the released audio includes the far scenario, the middle scenario and the near scenario. But for the development and evaluation sets, we only release the video in far scenario and the audio in far scenario during the challenge.</p>	
 						<p>The release of the evaluation set will use the same directory structure and file name rules as the development set.</p>
                         
 						<p><strong>For track 1</strong>, we will provide the oracle RTTM files in training and development sets. The RTTM files are named as < Room ID >_< Speakers IDs >_< Configuration ID >_< Index >.rttm</p>
@@ -103,7 +131,7 @@
 						<p>The audio data, video data and other files follow this directory structure.</p>
 						<center>
 							<figure style="padding:0px;border:0px; margin:10px">
-                            <img src="images/Tab4.png" style="width:50%;padding:0px;border:0" />
+                            <img src="images/Tab4.png" style="width:600px;padding:0px;border:0" />
                             </figure>
 						</center>
 						<p><b>Audio</b></p>
