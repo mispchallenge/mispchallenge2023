@@ -73,224 +73,149 @@ ul.c {list-style-type: square;}
 			<!-- Main -->
 
 			<section class="wrapper style1">
-					<!-- <div class="container">
-						<h1 style="font-size: 150%;">Wake Word Spottig (WWS) Baseline</h1>
-						<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2021_baseline/tree/master/task1_wws"> Github link </a></p>
+				<div class="container">
+					<h1 style="font-size: 150%;">Track1 AVSD Baseline</h1>
+					<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2022_baseline/tree/main/track1_AVSD">Github link</a></p>				   
+
+					<h1 style="font-size: 150%;">Data preparation</h1>
+
+					<ul>
+						<li><strong>Speech enhancement</strong></li>
+						<p>Weighted Prediction Error(WPE) dereverberation is used to reduce the reverberations of speech signals. The algorithms is implemented with open-source toolkit, <a href="https://github.com/fgnt/nara_wpe">nara_wpe</a></p>
+
+						<li><strong>Lip ROI extraction</strong></li>
+						<p>In the dataset, we provide the position detection results of the face and lips, which can be used to extract the ROI of the face or lips (only the lips are used here). The extracted lip ROI size is 96 × 96 (W × H) .</p>
+					</ul>
+
+
+					<h1 style="font-size: 150%;">Visual embedding module</h1>
+					<p>The visual embedding module is illustrated in the top row of Fig.1. On the basis of the original <a href="https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks">lipreading model</a>, we add three conformer blocks with 256 encoder dims, 4 attention heads, 32 conv kernel size and a 256-cell BLSTM to compute the visual embedding for speakers. The whole network can be regarded as visual voice activity detection (V-VAD) module. After pre-training the visual network as a V-VAD task, V-embeddings are equipped with capability that represent the states of speaking or silent. By feeding the embedding into the fully connected layers, we can get the probability of whether a speaker speaks in each frame. Combining the results of each speaker, we will get the initial diarization results.</p>
+
+					<h1 style="font-size: 150%;">Audio embedding module</h1>
+					<p>We firstly use the NARA-WPE method to dereverberate the original audio signals. Then, We extracted 40-dimensional FBANKs with 25 ms frame length and 10 ms frame shift. We extract the audio embedding from FBANKS through 4 layers 2D CNN. Then, a fully connected layer projects high dimensional CNNs output to low dimensional A-embeddings. Unlike visual network, we don’t pre-train audio network on any other tasks and directly optimize it with audio-visual decoding network.</p>
+
+					<h1 style="font-size: 150%;">Speaker embedding module</h1>
+					<p>To reduce the impact of the unreliable visual embedding, we use 100-dimensional i-vector extractor which was trained on Cn-celeb to get the i-vectors as the speaker embedding. We compute i-vectors through the oracle labels for each speaker in the training stage. And in the inference stage, we compute i-vectors through the initial diarization results from the visual embedding extraction module.</p>
+
+					<h1 style="font-size: 150%;">Decoder module</h1>
+					<p>We firstly repeat the three embeddings for different times to solve the problem of different frame shift between audio and video. Then, we combine them to get the total embedding. In the decoding block, we use 2-layer BLSTM with projection to further extract the features. Finally, we use a 1-layer BLSTM with projection and the fully connected layer to get the speech or non-speech probabilities for each speaker respectively. All of BLSTM layers contained 896 cells. In the post-processing stage, we first perform thresholding with the probabilities to produce a preliminary result and adopt the same approaches in <a href="https://ieeexplore.ieee.org/document/9747067">previous work</a>. Furthermore, <a href="https://github.com/desh2608/dover-lap">DOVER-Lap</a> is used to fuse the results of 6-channels audio.</p>
+					
+					<h1 style="font-size: 150%;">Decoder module</h1>
+					<p>We firstly repeat the three embeddings for different times to solve the problem of different frame shift between audio and video. Then, we combine them to get the total embedding. In the decoding block, we use 2-layer BLSTM with projection to further extract the features. Finally, we use a 1-layer BLSTM with projection and the fully connected layer to get the speech or non-speech probabilities for each speaker respectively. All of BLSTM layers contained 896 cells. In the post-processing stage, we first perform thresholding with the probabilities to produce a preliminary result and adopt the same approaches in <a href="https://ieeexplore.ieee.org/document/9747067">previous work</a>. Furthermore, <a href="https://github.com/desh2608/dover-lap">DOVER-Lap</a> is used to fuse the results of 6-channels audio.</p>
+
+					<h1 style="font-size: 150%;">Training process</h1>
+					<p>First, we use the parameters of the pre-trained lipreading and train the V-VAD model with a learning rate of 10-4. Then, we freeze the visual network parameters and train the audio network and audio-visual decoding block on synchronized middle-field audio and video with a learning rate of 10<sup>−4</sup>. Finally,we unfreeze the visual network parameters and train the whole network jointly on synchronized middle-field audio and video with a learning rate of 10<sup>−5</sup>.</p>
+
+					<h1 style="font-size: 150%;">Baseline Results</h1>
+					<center>
+						<figure style="padding:0px;border:0px; margin:10px">
+						<img src="images/AVSD_baseline_result.png" style="width:500px;padding:0px;border:0" />
+						</figure>
+					</center>
+					<p>We use Diarization error rate (DER) as the evaluation index. The above results are measured on the far-field audio and video. For the ASD system, we use the <a href="https://github.com/BUTSpeechFIT/VBx">VBx method</a>. For the VSD system, we use the result from the visual embedding module. And the AVSD system is our method. At the same time, this AVSD result also serves as the baseline result of the MISP2022 Challenge Track 1 in development set. The baseline results of the evaluation set will be published together with the data according to the schedule.</p>
+
+					<h1 style="font-size: 150%;">Quick start</h1>
+					<ul>
+						<li><strong>Add file execution permissions</strong></li>
+						<code>
+							chmod +x -R /export/corpus/exp/av_diarization/misp2022_baseline/track1_AVSD/  # (Your code path) 
+						</code>
+
+						<li><strong>Data prepare</strong></li>
+						<code>
+							bash data_prepare.sh   # (Please change your file path in the script. Note that WPE is not necessary for training set) 
+						</code>
+						
+						<li><strong>Setting kaldi</strong></li>
+						<code>
+							--- cmd.sh ---</br>
+							export train_cmd=run.pl </br>
+							export decode_cmd=run.pl</br>
+							export cmd=run.pl</br>
+
+							--- path.sh ---</br>
+							export KALDI_ROOT=`pwd`/../../..        # Defining Kaldi root directory</br>
+							#[ -f $KALDI_ROOT/tools/env.sh ] && . $KALDI_ROOT/tools/env.sh</br>
+							Export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$KALDI_ROOT/tools/irstlm/bin/:$PWD:$PATH</br>
+							[ ! -f $KALDI_ROOT/tools/config/common_path.sh ] && echo >&2 "The standard file $KALDI_ROOT/tools/config/common_path.sh is not present -> Exit!" && exit 1</br>
+							. $KALDI_ROOT/tools/config/common_path.sh</br>
+							export LC_ALL=C
+						</code>
+
+						<li><strong>Pre-trained model</strong></li>
+						<p>There are three pre-trained models.</p>
+						<p>The conformer_v_sd_2.model and av_diarization_3.model are the pre-trained models of visual embedding module and audio-visual module respectively. You can choose whether to download them. Specifically, if you do not want to conduct the training process but directly decode, you can download these two models.</p>
+						<p>Lipreading_LRW.pt is the pre-trained model of lipreading. The training process will use it. Therefore, if you want to conduct the training process, you must download this model.</p>
+						<code>
+							conformer_v_sd_2.model</br>
+							av_diarization_3.model</br>
+							lipreading_LRW.pt </br>		
+						</code>
 						<p></p>
-						<ul>
-						<li>
-						<p><strong>Introduction</strong></p>
-						<p>This is the baseline system for the Multimodal Information Based Speech Processing Challenge 2021 (MISP2021) challenge task 1. This task concerns the identification of predefined wake word(s) in utterances. ‘1’ indicates that the sample contains wake word, and ‘0’ indicates the opposite. For a more detailed description see MISP Challenge task description.</p>
-						</li>
-						<li>
-						<p><strong>System description</strong></p>
-						<p>The audio system implements a neural network (NN) based approach, where filter bank features are first extracted for each sample, and a network consisting of CNN layers, LSTM layer and fully connected layers are trained to assign labels to the audio samples.</p>
-						<p>For the video system, the same network structure is adopted as the audio network. Only middle field video is used to train the video system.</p>
-						<p>For fusion, we consider late fusion, that is, the mean of the a posteriori probability of the network output of audio and video is used to calculate the final score.</p>
-						</li>
-						<li>
-						<p><strong>Preparation</strong></p>
-						<ul class="a">
-						<li>
-						<p><strong>prepare data directory</strong></p>
-						<p>For training, development, and test sets, we prepare data directories by extracting the downloaded zip compressed file to the current folder. Here, we only selected the channel 1.</p>
-						<p><code>  unzip  -d ./  *.zip</br>
+						<p>The link of Google drive is: <a href="https://drive.google.com/drive/folders/1kh40NNBW84kODM0PrWvYLwDCjuqpKqj7?usp=sharing">https://drive.google.com/drive/folders/1kh40NNBW84kODM0PrWvYLwDCjuqpKqj7?usp=sharing</a></p>
+						<p>Please put the downloaded model into model/pretrained/</p>
 
-						  *.zip indicates the file name that needs to be unzipped</code></p>
-						</li>
-						<li>
-						<p><strong>speech augmentation</strong> </p>
-						<p>Simulating reverberant and noisy data from near field speech, noise is widely adopted. We provide a baseline speech simulation tool to add reverberation and noise for speech augmentation. Considering that the negative samples are easier to obtain, we simulate all positive samples and partial negative samples (listed in file <a href="https://github.com/mispchallenge/misp2021_baseline/blob/master/task1_wws/data_prepare/negative_simulation.scp">data_prepare/negative_simulation.scp</a>). Here, we only use channel 1 for simulation.</p>
-						<ul class="b">
-						<li>
-						<p><strong>add reverberation</strong></p>
-						<p>An open-source toolkit <a href="https://github.com/LCAV/pyroomacoustics">pyroomacoustic</a> is used to add reverberation. The room impulsive response (RIR) is generated according to the actual room size and microphone position.</p>
-						</li>
-						<li>
-						<p><strong>add noise</strong></p>
-						<p>We provide a simple tool to add noise with different signal-to-noise ratio. In our configuration, the reverberated speech is corrupted by the collected noise at seven signal-to-noise ratios (from -15dB to 15dB with a step of 5dB).</p>
-						</li>
-						<li>
-						<p><strong>download the pretrained model</strong></p>
-						<p><code>dropbox url:https://www.dropbox.com/s/4pe3j2swf2cwvik/lipreading_LRW.pt?dl=0</br>
-						verification code: zxzs23</code></p>
+						<li><strong>Training</strong></li>
+						<p>If you have downloaded the pre-trained models, you can directly do the decoding process.</p>
+						<code>
+							bash run.sh </br>
+							# options: </br>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		--stage 5 </br>
+							# change the number to start from different training stage </br>
+							(stage 5 ~ 9 are the decoding process using single channel audio; stage 10 ~ 11 are the decoding process fusing 6-channels audio)
+						</code>
+						<p>The lip ROI and ivector of the training set will be used in the decoding process. So you need to use stage2 of data_prepare.sh to extract the lip ROI of the training set, and use stage 3 of run.sh to extract the ivector of the training set. We have prepared the ivector of the training set. You can directly use it.</p>
 
-						 <p><code> Baidu clouddisk url：https://pan.baidu.com/s/1SeJyQ3aBsGz2O_YCU3X1LQ</br>
-							verification code：4chh</code></p>
-						<p>The pretrained model needs to be placed on the spectific path</p>
-						<p><code>${task1_baseline}/kws_net_only_video/model/pretrained/lipreading_LRW.pt</br></code></p>
-						</li>
-						<li>
-						<p><strong>download coordinate information used to crop ROI</strong></p>
+						<h1 style="font-size: 150%;">Requirments</h1>
 						<ul>
-						<li>
-						<p><strong>mid-field</strong></p>
-						<p>dropbox url:https://www.dropbox.com/s/g6pst3fr5a13m8y/misp2021_task1_roi_midfield.zip?dl=0</br>
-								verification code: zxzs23</p>
-						<p>Baidu Netdisk url：https://pan.baidu.com/s/1XSWBDx08EQR3aP1j2TXhXg</br>
-							verification code：6pyk </p>
-						<p>MD5：581ec2a5daba9ee16c03ea022577b69a</p>
-						</li>
-						<li>
-						<p><strong>far-field</strong></p>
-						<p>misp2021_task1_roi_farfield.zip</br> 
-						dropbox url:https://www.dropbox.com/s/0gn4djyzsp2yzr1/misp2021_task1_roi_farfield.zip?dl=0</br> 
-						verification code: zxzs</br>    
-						Baidu Netdisk url：https://pan.baidu.com/s/1v5BANcgt1lk8OikUCUxL5g</br> 
-						verification code：zxzs</br> 
-						MD5: b6d84a6aaa10ff5d72d7381c9758860b</p>    
+							<li>
+								<p><strong>Kaldi</strong></p>
+							</li>
+							<li>
+								<p><strong>pytorch</strong></p>
+							</li>
 
-						<p>lip_npy_far.zip</br> 
-						dropbox url:https://www.dropbox.com/s/db68266ck3rlk43/lip_npy_far.zip?dl=0</br> 
-						verification code: zxzs</br> 
-						Baidu Netdisk url：https://pan.baidu.com/s/1v5BANcgt1lk8OikUCUxL5g</br> 
-						verification code：zxzs</br>     
-						MD5：1dbb0f589fff40cbafa0c9be88aa93a3 </p>
-						</li>
-						</li>
-						</ul>
+							<li>
+							<p><strong>Python Packages:</strong></br>
+							nbformat</br>
+							argparse</br>
+							numpy</br>
+							tqdm</br>
+							opencv-python</br>
+							eniops</br>
+							scipy</br>
+							prefetch_generator</br>
+							</p>
+							</li>
 
-						<li>
-						<p><strong>Audio Wake Word Spotting</strong></p>
-						<p>For features extraction, we employ 40-dimensional filter bank (FBank) features normalized by global mean and variance as the input of the audio WWS system. The final output of the models compared with the preset threshold after sigmoid operation to calculate the false reject rate (FRR) and false alarm rate (FAR). Here comes the results.</p>
-						</li>
-						<li>
-						<p><strong>Video Wake Word Spotting</strong></p>
-						<p>To get visual embeddings, we firstly crop mouth ROIs from video streams, then use the <a href='https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks'>lipreading TCN</a> to extract 512-dimensional features. The extracted features are input into the same network structure as the audio network.</p>
-						</li>
-						</ul>
+							<li>
+							<p><a href="https://github.com/fgnt/nara_wpe">Nare_wpe</a></p>
+							</li>
 
-						<h2>Results</h2>
-						<p>After adjusting different thresholds, the system performances are as follows:</p>
-						<center>
-							<table  class='default'>
-							    <tr>
-							        <th>Modality</th>
-							        <th>Scenario</th>
-							        <th>FRR</th>
-							        <th>FAR</th>
-							        <th>Score</th>
-							    </tr>
-							    <tr>
-							        <td>Audio</td>
-							        <td>Middle</td>
-							        <td>0.07</td>
-							        <td>0.08</td>
-							        <td>0.15</td>
-							    </tr>
-							    <tr>
-							        <td>Audio</td>
-							        <td>Far</td>
-							        <td>0.18</td>
-							        <td>0.09</td>
-							        <td>0.27</td>
-							    </tr>
-							    <tr>
-							        <td>Video</td>
-							        <td>Middle</td>
-							        <td>0.12</td>
-							        <td>0.21</td>
-							        <td>0.33</td>
-							    </tr>
-							    <tr>
-							        <td>Audio-visual</td>
-							        <td>Middle</td>
-							        <td>0.07</td>
-							        <td>0.06</td>
-							        <td>0.13</td>
-							    </tr>
-							    <tr style="border-bottom: solid 1px;">
-							        <td>Audio-visual</td>
-							        <td>Far</td>
-							        <td>0.12</td>
-							        <td>0.14</td>
-							        <td>0.26</td>
-							    </tr>
-							</table>
-						</center>
+							<li>
+								<p><a href="https://github.com/desh2608/dover-lap">Dover</a></p>
+							</li>
 
-						<h2>Setting Paths</h2>
-						<ul>
-						<li><strong>data prepare</strong></li>
-						</ul>
-						<div class="ml1">
-						<p><code># Here, the given tool can simulate the positive samples directly. If you need to simulate the negative samples, you need to modify the default configuration.</br>
-						--- data_prepare/run.sh ---</br>
-						# Defining corpus directory</br>
-						data_root=</br>
-						# Defining path to python interpreter</br>
-						python_path=</code></p>
-						</div>
-						<ul>
-						<li><strong>kws_net_only_audio</strong></li>
-						</ul>
-						<div class="ml1">
-						<p><code>--- kws_net_only_audio/run.sh ---</br>
-						# Defining corpus directory</br>
-						data_root=</br>
-						# Defining path to python interpreter</br>
-						python_path=</code></p>
-						</div>
-						<ul>
-						<li><strong>kws_net_only_video</strong></li>
-						</ul>
-						<div class="ml1">
-						<p><code>--- kws_net_only_video/run.sh ---</br>
-						# Defining corpus directory</br>
-						data_root=</br>
-						# Defining path to python interpreter</br>
-						python_path=</code></p>
-						</div>
+							<li>
+								<p><a href="https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks">Lipreading using Temporal Convolutional Networks</a></p>
+							</li>
 
-						<h2>Running the baseline audio system</h2>
-						<ul>
-						<li><strong>Simulation (optional)</strong></li>
-						</ul>
-						<div class="ml1">
-						<p><code>cd data_prepare</br>
-						sh run.sh</code></p>
-						</div>
-						<ul>
-						<li><strong>Run Training</strong></li>
-						</ul>
-						<div class="ml1">
-						<p><code>cd ../kws_net_only_audio</br>
-						sh run.sh</code></p>
-					</div>
-						<ul>
-						<li><strong>Run Video Training</strong></li>
-						</ul>
-						<div class="ml1">
-						<p><code>cd ../kws_net_only_audio</br>
-						sh run.sh</code></p>
-					</div>
-						<ul>
-						<li><strong>Run Fusion</strong></li>
-						</ul>
-						<div class="ml1">
-						<p><code>cd ../kws_net_fusion</br>
-						python fusion.py</code></p>
-					</div>
-						<h2>Requirments</h2>
-						<ul>
-						<li>
-						<p><strong>pytorch</strong></p>
-						</li>
-						<li>
-						<p><strong>python packages:</strong></p>
-						<p>numpy</p>
-						<p><a href="https://github.com/opencv/opencv-python">OpenCV</a></p>
-						<p>tqdm</p>
-						<p><a href="https://github.com/LCAV/pyroomacoustics">pyroomacoustic</a></p>
-						<p><a href="https://github.com/bastibe/python-soundfile">soundfile</a></p>
-						</li>
-						<li>
-						<p><strong>other tools:</strong></p>
-						<p><a href="http://sox.sourceforge.net/">sox</a> </p>
-						</li>
-						</ul>
-					</div> -->
-				</section>
+							</ul>
+					</ul>
+
+					<h1 style="font-size: 150%;">Citation</h1>
+					<p>If you find this code useful in your research, please consider to cite the following papers:</br>
+						<font size="4">
+							@inproceedings{he2022,</br>
+							title={End-to-End Audio-Visual Neural Speaker Diarization},</br>
+							author={He, Mao-kui and Du, Jun and Lee, Chin-Hui},</br>
+							booktitle={Proc. Interspeech 2022},</br>
+							pages={1461--1465},</br>
+							year={2022}}
+						</font>
+					</p>
+				</div>
+			</section>
 
 <!-- 				<section class="wrapper style1">
 					<div class="container">
