@@ -73,53 +73,49 @@ ul.a {list-style-type: circle;}
 			<section class="wrapper style1">
 					<div class="container">
 						<h1 style="font-size: 150%;">Track2 AVDR Baseline</h1>
-						<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2022_baseline"> Github link </a></p>					   
+						<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2022_baseline/tree/main/track2_AVDR"> Github link </a></p>					   
 
-						<h1 style="font-size: 120%;">Training</h1>
+						<h1 style="font-size: 150%;">AVSD Module Training</h1>
+						<p>The training of AVSD module is consistent with the track1.</p>
 
-						<ul>
-					        <li><strong>AVSD module</strong></li>
-							<p>The training of AVSD module is consistent with the track1.</p>
+						<h1 style="font-size: 150%;">AVSR Module Training</h1>
+						<p>The training of AVSR module uses the oracle diarization results.</p>
+						<ol type="a">
+							<li><strong>Data preparation</strong></li>
+							<ul>
+								<li><strong>speech enhancement</strong></li>
+								<p>Weighted Prediction Error(WPE) dereverberation and BeamformIt are used to reduce the reverberations of speech signals. The algorithms are implemented with open-source toolkit, <a href="https://github.com/fgnt/nara_wpe">nara_wpe</a> and <a href="https://github.com/xanguera/BeamformIt">BeamformIt</a>.</p>
+							</ul>
+							
+							<ul>
+								<li><strong>prepare data and language directory for kaldi</strong></li>
+								<p>For training, development, and test sets, we prepare data directories and the lexicon in the format expected by  <a href="http://kaldi-asr.org/doc/data_prep.html">kaldi</a> respectively. Note that we choose <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> raw resource and convert it to kaldi lexicon format.</p>
+							</ul>
 
-							<li><strong>AVSR module</strong></li>
-							<p>The training of AVSR module uses the oracle diarization results.</p>
-							<ol type="a">
-								<li><strong>Data preparation</strong></li>
+							<li>
+								<p><strong>Language model</strong></p>
+								<p>We segment MISP speech transcription for language model training by applying <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> as dict and <a href="https://github.com/fxsjy/jieba">Jieba</a> open-source toolkit. For the language model, we choose a maximum entropy-based 3-gram model, which achieves the best perplexity, from n-gram(n=2,3,4) models trained on MISP speech transcripts with different smoothing algorithms and parameters sets. And the selected 3-gram model has 516600 unigrams, 432247 bigrams, and 915962 trigrams respectively.  Note that the temporary and final language models are stored in /data/srilm.</p>
+							</li>
+
+							<li>
+								<p><strong>Acoustic model</strong></p>
+								<p>The acoustic model of the AVSR system is built largely following the Kaldi recipes which mainly contain two stages: GMM-HMM state model and DNN-HMM model.</p>
+								
 								<ul>
-									<li><strong>speech enhancement</strong></li>
-									<p>We provide two baseline speech enhancement front-ends, Weighted Prediction Error(WPE) dereverberation and weighted delay-and-sum(DAS) beamforming, to reduce reverberations and noises of speech signals. These two algorithms are implemented with open-source toolkits, <a href="https://github.com/fgnt/nara_wpe">nara_wpe</a> and <a href="https://github.com/xanguera/BeamformIt">BeamformIt</a>, respectively.</p>
+									<li><strong>GMM-HMM</strong></li>
+									<p>For features extraction, we extract 13-dimensional MFCC features plus 3-dimensional pitches. As a start point for triphone models, a monophone model is trained on a subset of 50k utterances. Then a small triphone model and a larger triphone model are consecutively trained using delta features on a subset of 100k utterances and the whole dataset respectively. In the third triphone model training process, an MLLT-based global transform is estimated iteratively on the top of LDA feature to extract independent speaker features. For the fourth triphone model, feature space maximum likelihood linear regression (fMLLR) with speaker adaptive training (SAT) is applied in the training.</p>
 								</ul>
 								
 								<ul>
-									<li><strong>prepare data and language directory for kaldi</strong></li>
-									<p>For training, development, and test sets, we prepare data directories and the lexicon in the format expected by  <a href="http://kaldi-asr.org/doc/data_prep.html">kaldi</a> respectively. Note that we choose <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> raw resource and convert it to kaldi lexicon format.</p>
+									<li><strong>DNN-HMM</strong></li>
+									<p>Based on the tied-triphone state alignments from GMM, DNN is configured and trained to replace GMM. The input features are 40-dimensional FBank features with cepstral normalization and the 96 × 96 (W × H) lip ROI.</p>
 								</ul>
 
-								<li>
-									<p><strong>Language model</strong></p>
-									<p>We segment MISP speech transcription for language model training by applying <a href="https://github.com/aishell-foundation/DaCiDian.git">DaCiDian</a> as dict and <a href="https://github.com/fxsjy/jieba">Jieba</a> open-source toolkit. For the language model, we choose a maximum entropy-based 3-gram model, which achieves the best perplexity, from n-gram(n=2,3,4) models trained on MISP speech transcripts with different smoothing algorithms and parameters sets. And the selected 3-gram model has 516600 unigrams, 432247 bigrams, and 915962 trigrams respectively.  Note that the temporary and final language models are stored in /data/srilm.</p>
-								</li>
-
-								<li>
-									<p><strong>Acoustic model</strong></p>
-									<p>The acoustic model of the AVSR system is built largely following the <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/chen22o_interspeech.pdf">paper</a> recipes which mainly contain two stages: GMM-HMM state model and DNN-HMM model.</p>
-									
-									<ul>
-										<li><strong>GMM-HMM</strong></li>
-										<p>For features extraction, we extract 13-dimensional MFCC features plus 3-dimensional pitches. As a start point for triphone models, a monophone model is trained on a subset of 50k utterances. Then a small triphone model and a larger triphone model are consecutively trained using delta features on a subset of 100k utterances and the whole dataset respectively. In the third triphone model training process, an MLLT-based global transform is estimated iteratively on the top of LDA feature to extract independent speaker features. For the fourth triphone model, feature space maximum likelihood linear regression (fMLLR) with speaker adaptive training (SAT) is applied in the training.</p>
-									</ul>
-									
-									<ul>
-										<li><strong>DNN-HMM</strong></li>
-										<p>Based on the tied-triphone state alignments from GMM, DNN is configured and trained to replace GMM. The audio features are 40-dimensional MFCC features with cepstral normalization. The visual features are the Lip ROIs cropped from the video. A deep neural networkk-hidden markov model (DNN-HMM) baseline is adopted in the system, and you can consult the <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/chen22o_interspeech.pdf">paper </a>for more details.</p>
-									</ul>
-
-								</li>
-							</ol>
-						</ul>
+							</li>
+						</ol>
 
 
-						<h1 style="font-size: 120%;">Inference</h1>
+						<h1 style="font-size: 150%;">Inference</h1>
 						<p>The RTTM file as the output of the AVSD module contains the information of the Session, SPK, T<sup>start</sup>, and T<sup>dur</sup>.</p>
 						<p>where:</p>
 						<ul>
@@ -129,25 +125,25 @@ ul.a {list-style-type: circle;}
 							<li>T<sub>j</sub><sup>dur</sup>: the duration of the j-th utterance for SPK<sub>i</sub></li>
 						</ul>
 						<p>During the inference, the RTTM file is used for segmenting audio and video data in AVSR module.</p>
+						<p>If speaker IDs of the final decoding results are global, you only need to caculate the CER. If you run your own model and get the local speaker IDs, you need to caculate the cpCER.</p>
 
+						<h1 style="font-size: 150%;">Results</h1>
+						<center>
+							<figure style="padding:0px;border:0px; margin:10px">
+							<img src="images/AVDR_baseline_result.png" style="width:300px;padding:0px;border:0" />
+							</figure>
+						</center>	
+						<p>The AVSD+AVSR model is our AVDR baseline system.</p>
 
-					</div>
-				</section>
-
-				<section class="wrapper style2">
-					<div class="container">
-						<h1 style="font-size: 120%;">Quick start</h1>
+						<h1 style="font-size: 150%;">Quick start</h1>
 						<ul><li><strong>Setting Local System Jobs</strong></li></ul>
-						<div class="ml1">
 						<p><code># Setting local system jobs (local CPU - no external clusters)</br>
 						export train_cmd=run.pl</br>
 						export decode_cmd=run.pl</code></p>
-					</div>
 						<p></p>
 						<ul>
 						<li><strong>Setting  Paths</strong></li>
 						</ul>
-						<div class="ml1">
 						<p><code>--- path.sh ---</br>
 						# Defining Kaldi root directory</br>
 						export KALDI_ROOT=</br>
@@ -158,7 +154,7 @@ ul.a {list-style-type: circle;}
 						# Variable needed for proper data sorting</br>
 						export LC_ALL=C</p>
 
-						<p>--- run.sh ---</br>
+						<p>--- run_misp.sh ---</br>
 						# Defining corpus directory</br>
 						misp2022_corpus=</br>
 						# Defining path to beamforIt executable file</br>
@@ -169,44 +165,55 @@ ul.a {list-style-type: circle;}
 						data_roi =</br>
 						# dictionary directory </br>
 						dict_dir= </code></p>
-					</div>
 						<p></p>
 						<ul>
 						<li><strong>Running Training</strong></li>
 						</ul>
-						<div class="ml1">
-						<p><code>./run.sh 
+						<p><code>./run.sh </br>
 						# options:</br>
-						        --stage      -1  change the number to start from different training stages</br>
-						        --nnet_stage -10 the number controls tdnn training stages including preprocessing and postprocessing</code></p>
-						    </div>
-					</div>
-				</section>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        --stage  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    -1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change the number to start from different training stages</br></code></p>
 
-				<section class="wrapper style1">
-					<div class="container">
-						<h1 style="font-size: 120%;">Requirments</h1>
-						<ul>
-						<li>
-						<p><strong>Kaldi</strong></p>
-						</li>
-						<li>
-						<p><strong>Python Packages:</strong></br>
-						numpy</br>
-						tqdm</br>
-						<a href="https://github.com/fxsjy/jieba">jieba</a></p>
-						</li>
-						<li>
-						<p><strong>Other Tools:</strong></br>
-						<a href="https://github.com/fgnt/nara_wpe">nara_wpe</a></br>
-						<a href="https://github.com/xanguera/BeamformIt">Beamformit</a></br>
-						SRILM</br>
-						<a href="https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks">Lipreading using Temporal Convolutional Networks</a></p>
-						</li>
-						</ul>
-						<p></p>
-					</div>
-				</section>
+
+
+					<h1 style="font-size: 150%;">Requirments</h1>
+					<ul>
+					<li>
+					<p><strong>Kaldi</strong></p>
+					</li>
+					<li>
+					<p><strong>Python Packages:</strong></br>
+					numpy</br>
+					tqdm</br>
+					<a href="https://github.com/fxsjy/jieba">jieba</a></p>
+					</li>
+					<li>
+					<p><strong>Other Tools:</strong></br>
+					<a href="https://github.com/fgnt/nara_wpe">nara_wpe</a></br>
+					<a href="https://github.com/xanguera/BeamformIt">Beamformit</a></br>
+					SRILM</p>
+					</li>
+					</ul>
+				
+					<h1 style="font-size: 150%;">Citation</h1>
+					<p>If you find this code useful in your research, please consider to cite the following papers:</br>
+						<font size="4">
+							@inproceedings{chen2022first,</br>
+							title={The first multimodal information based speech processing (misp) challenge: Data, tasks, baselines and results},</br>
+							author={Chen, Hang and Zhou, Hengshun and Du, Jun and Lee, Chin-Hui and Chen, Jingdong and Watanabe, Shinji and Siniscalchi, Sabato Marco and Scharenborg, Odette and Liu, Di-Yuan and Yin, Bao-Cai and others},</br>
+							booktitle={ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},</br>
+							pages={9266--9270},</br>
+							year={2022},</br>
+							organization={IEEE}</br>
+							}</br>
+							@inproceedings{2022misptask2,</br>
+							author={Chen, Hang and Du, Jun and Dai, Yusheng and Lee, Chin-Hui and Siniscalchi, Sabato Marco and Watanabe, Shinji and Scharenborg, Odette and Chen, Jingdong and Yin, Bao-Cai and Pan, jia},</br>
+							booktitle={Proc. INTERSPEECH 2022},</br>
+							title={Audio-Visual Speech Recognition in MISP2021 Challenge: Dataset Release and Deep Analysis},</br>
+							year={2022}}
+						</font>
+					</p>
+			</div>
+		</section>
 
 
 			<!-- Footer -->
