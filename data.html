@@ -20,9 +20,9 @@
 					<!-- Logo -->
 					<!-- <img src="images/isca.png" width="6%" height="6%" style="margin:0 77% 0 0;"> -->
 					<!-- <h1 style="font-size: 120%;  margin: -4% 0 -2% 0"><a href="index.html" id="logo">Multimodal Information
-							Based Speech Processing (MISP) Challenge 2022</a></h1> -->
+							Based Speech Processing (MISP) Challenge 2023</a></h1> -->
 					<h1 style="font-size: 120%;  margin: -1% 0% -1% 0%;"><a href="index.html" id="logo">Multimodal Information
-								Based Speech Processing (MISP) Challenge 2022</a></h1> 	
+								Based Speech Processing (MISP) Challenge 2023</a></h1> 	
 					<img src="images/ieee.svg" width="7%"height="7%" style="margin:-10% 0% 3% 79%;">
 
 					<!-- Nav -->
@@ -32,19 +32,11 @@
 								<li><a href="overview.html">Overview</a></li>
 								<li class="current"><a href="data.html">Data</a></li>
 								<li>
-									<a href="#">Track1</a>
+									<a href="#">Task</a>
 									<ul>
 										<li><a href="task1_instructions.html">Instructions</a></li>										
 										<li><a href="task1_software.html">Software</a></li>
-						                <li><a href="task1_leaderboard.html">Leaderboard</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#">Track2</a>
-									<ul>
-										<li><a href="task2_instructions.html">Instructions</a></li>										
-										<li><a href="task2_software.html">Software</a></li>
-						                <li><a href="task2_leaderboard.html">Leaderboard</a></li>
+						                <li><a href="task1_submission.html">Submission</a></li>
 									</ul>
 								</li>
 								<!-- <li>
@@ -95,46 +87,21 @@
 								</font>
 							</p>
 						</ol>
-						<p>For the MISP 2022 challenge, our training set is the same as that mentioned in the second paper, and our new development set is selected from the development and evaluation sets of the MISP 2021 challenge. In addition, we will also release a new evaluation set, which has no duplicate speakers compared with other sets.</p>
+						
+						
+						<p>In the MISP 2022 challenge, we release a new development set and a new evaluation set, which has no duplicate speakers compared with other sets.</p>
 
-						<p>
-                            The challenge uses the MISP2022 dataset which contains 100+ hours of audio-visual data. The dataset includes 320+ sessions. Each session consists of a about 20-minutes discussion. The reason why we select an about 20-min duration rather than a longer recording for a session is that we want to alleviate the clock drift problem for synchronizing multiple devices.
-                        </p>
-                        <p>The data have been split into training, development, and evaluation sets as follows (evaluation set will be released later).</p>
+						<p>This year, in the MISP 2023 challenge, clean reference speech is required for training the AVTSE model. Due to the possibility of huge noise interference and unclear speech in part of the original near-field audio, we should conduct data cleansing on the training set. Firstly, we divide the near-field speech into several segments based on timestamps, each containing only one speaker. Meanwhile, we preserve 5% of silence at the beginning and end of each segment (with a maximum duration of 0.4 seconds). Then the deep noise suppression mean opinion score (DNSMOS) is used to select segments with high speech quality, which is a non-intrusive speech quality metric to evaluate audio without reference to clean speech. We select the OVR metric in DNSMOS, as it provides a comprehensive assessment of audio and background noise quality. We screen a total of 22.13 hours of speech segments with OVR > 4.1.</p>
+
+						<p>Due to the differences in the crystal clocks of recording devices, it is impossible to ensure complete alignment between near-field and far-field audio. Therefore, we cannot directly use the original far-field audio for the AVTSE task. To ensure complete synchronization, we can use near-field audio for simulation and obtain multi-channel far-field audio. We will provide a data simulation script that allows participants to utilize the screened near-field speech to simulate far-field scenarios easily. This script can generate reverbs based on room and device information and add noise to the speech segment, generating 6-channel far-field audio data. Segments with lower OVR scores can be utilized as noise to generate noisy speech at 6 levels of with signal-to-noise ratios (SNRs), i.e., -15 dB, -10 dB, -5 dB, 0 dB, 5 dB, and 10 dB. Utilizing the near-field audio as the ground-truth, participants can perform AVTSE through far-field audio and middle-field video.</p>
+
+						<p>The development set will use the audio data in development set of MISP 2022, and we will provide the additional middle-field videos. The evaluation set will add some new sessions to the evaluation set of MISP 2022, which focus on female dialogue scenarios.</p>
+
+						<p>The data have been split into training, development, and evaluation sets as follows (evaluation set will be released later).</p>
 						<center>
 							<figure style="padding:0px;border:0px; margin:10px">
-								<img src="images/track1&2_data.png" style="width:600px;padding:0px;border:0" />
+								<img src="images/2023_data_table1.jpg" style="width:60%;padding:0px;border:0" />
 							</figure>
-						</center>
-						<p>For training set, the released video includes the far scenario and the middle scenario while the released audio includes the far scenario, the middle scenario and the near scenario. But for the development and evaluation sets, we only release the video in far scenario and the audio in far scenario during the challenge.</p>	
-						<p>The release of the evaluation set will use the same directory structure and file name rules as the development set.</p>
-                        
-						<p><strong>For track 1</strong>, we will provide the oracle RTTM files in training and development sets. The RTTM files are named as < Room ID >_< Speakers IDs >_< Configuration ID >_< Index >.rttm</p>
-                        <p>Each line of the RTTM file is:</p>
-                        <p style="text-indent: 4em;">SPEAKER < Session_ID > 1 < start_time > < duration_time > NA NA < speaker_ID > NA NA </p>
-                        <p>Participants need to submit the RTTM file in the same form, and the Session_ID of the result file must be exactly the same as the official file.</p>
-                        
-                        <p><strong>For track 2</strong>, we will provide the oracle RTTM files that are the same as track 1. In addition, we will provide the transcription files in training and development sets. The transcriptions are provided in TextGrid format for each speaker in each session. We use speech signal recorded by the near-field high-fidelity microphone to manual transcription. After manual rechecking, the transcription accuracy rate is as high as 99% or more. The TextGrid files are named as < Room ID >_< Speakers IDs >_< Configuration ID >_< Index > _Near_< Speaker ID >.TextGrid</p>
-                        <p>The TextGrid file includes the following pieces of information for each utterance:</p>
-                        <ul>
-					        <li>Start time ("start_time")</li>
-							<li>End time ("end_time")</li>
-							<li>Transcription ("Chinese characters")</li>
-						</ul>
-                        <p>Each line of the final submitted text file is < speaker ID >_< session ID > < utterance > , and the session_ID of the result file must be exactly the same as the official file.</p>
-                        <p>For both track 1 and track 2, we also provide the oracle speech segmentation timestamp files in training, development, and evaluation sets. These files are named as < Room ID >_< Speakers IDs >_< Configuration ID >_< Index >.lab</p>
-                        <p>And each line of the timestamp file is:</p>
-                        <p style="text-indent: 4em;">< start_time > < end_time > speech</p>
-
-						<h3 style="font-size: 120%;">Directory Structure</h3>
-						<p>
-							There is a pdf file in the top-level directory, called data-specification.pdf, which describes the introduction of the data set. There are two txt files in the “doc” folder, speaker_info.txt describes the gender and age range of every speaker, and room_info.txt describes the size of every room.
-						</p>
-						<p>The audio data, video data and other files follow this directory structure.</p>
-						<center>
-							<figure style="padding:0px;border:0px; margin:10px">
-                            <img src="images/Tab4.png" style="width:600px;padding:0px;border:0" />
-                            </figure>
 						</center>
 						<p><b>Audio</b></p>
 						<p>
@@ -254,7 +221,7 @@
 							        <td style="border: solid 1px;">1</td>
 							    </tr>
 							    <tr>
-							        <th colspan="12" style="border: solid 1px;">Tab.5. Configuration</th>
+							        <th colspan="12" style="border: solid 1px;">Tab.2. Configuration</th>
 							    </tr>
 							</table>
 						</center>

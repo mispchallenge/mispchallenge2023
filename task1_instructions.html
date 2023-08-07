@@ -20,9 +20,9 @@
 					<!-- Logo -->
 					<!-- <img src="images/isca.png" width="6%" height="6%" style="margin:0 77% 0 0;"> -->
 					<!-- <h1 style="font-size: 120%;  margin: -4% 0 -2% 0"><a href="index.html" id="logo">Multimodal Information
-							Based Speech Processing (MISP) Challenge 2022</a></h1> -->
+							Based Speech Processing (MISP) Challenge 2023</a></h1> -->
 					<h1 style="font-size: 120%;  margin: -1% 0% -1% 0%;"><a href="index.html" id="logo">Multimodal Information
-								Based Speech Processing (MISP) Challenge 2022</a></h1> 	
+								Based Speech Processing (MISP) Challenge 2023</a></h1> 	
 					<img src="images/ieee.svg" width="7%"height="7%" style="margin:-10% 0% 3% 79%;">
 
 					<!-- Nav -->
@@ -32,19 +32,11 @@
 								<li><a href="overview.html">Overview</a></li>
 								<li><a href="data.html">Data</a></li>
 								<li class="current">
-									<a href="#">Track1</a>
+									<a href="#">Task</a>
 									<ul>
 										<li><a href="task1_instructions.html">Instructions</a></li>
 										<li><a href="task1_software.html">Software</a></li>
-						                <li><a href="task1_leaderboard.html">Leaderboard</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#">Track2</a>
-									<ul>
-										<li><a href="task2_instructions.html">Instructions</a></li>
-										<li><a href="task2_software.html">Software</a></li>
-						                <li><a href="task2_leaderboard.html">Leaderboard</a></li>
+						                <li><a href="task1_submission.html">Submission</a></li>
 									</ul>
 								</li>
 								<!-- <li>
@@ -69,71 +61,49 @@
 				<section class="wrapper style1">
 					<div class="container">
 						
-						<h1 style="font-size: 150%;">Track1 Instructions</h1>
-						<p>Speaker diarization aims to address the “who spoke when” problem by labeling speech timestamps according to the identify of speakers. Different from previous challenges, the track 1 of MISP2022 Challenge focuses on speaker diarization using audio and video data, namely Audio-Visual Speaker Diarization (AVSD).</p>
-						<p>In the evaluation stage, we only use far-field data, including far-field video and 6-channels far-field audio. In addition, we will provide the oracle speech segmentation timestamp.</p>
+						<h1 style="font-size: 150%;">Instructions</h1>
+						<p>Audio-visual target speech extraction (AVTSE) aims to extract the target speech from mixtures containing various speakers and background noise using audio and video data. In MISP 2023 challenge, in the development and evaluation stage, we only use middle-field video and 6-channels far-field audio.</p>
 						
 
 						<h1 style="font-size: 150%;">Evaluation</h1>
-						<p>In this track, we adopt diarization error rate (DER) as the official metric for our ranking. It is represented with this formula:</p>
+						<p>The ultimate goal of studying the front-end speech processing system is to improve the performance of the back-end system. To explore the impact of AVTSE on the back-end system, we will use an audio-visual speech recognition (AVSR) model to decode the extracted audio, and calculate character error rate (CER) as the evaluation metric.</p>
 						<center>
 							<figure style="padding:0px;border:0px; margin:10px">
-							<img src="images/DER.png" style="width:300px;padding:0px;border:0" />
+							<img src="images/CER.png" style="width:300px;padding:0px;border:0" />
 							</figure>
 						</center>
-						<p>where:</p>
-						<ul>
-					        <li>FA is the speech durations of false alarm</li>
-							<li>MISS is the speech durations of missed detection</li>
-							<li>SPKERR is the speech durations of speaker error</li>
-							<li>TOTAL is the sum of durations of all reference speakers’ speech</li>
-						</ul>
-						<p>The lower the DER value (with 0 being a perfect score), the higher the ranking. It is worth noting that we do not set the “no score” collar, and the overlapping speech will be evaluated.</p>
-						<p>For training and development sets, we will prepare the scoring script which will be released together with the baseline. For the evaluation test set, the participant should submit a Rich Transcription Time Marked (RTTM) file for each session to the Codelab platform. DER will be calculated and updated in the leaderboard.</p>
+						<p>Where, S, D, and I represent the number of substitutions, deletions, and insertions, respectively. N is the number of characters in ground truth. The lower CER value (with 0 being a perfect score), the better the recognition performance, which means the better the performance of AVTSE.</p>
+						
+						<p>To enable participants to develop and adjust their AVTSE systems, we will provide a pre-trained AVSR model, which is the latest research of our team. This model uses a visual frontend pre-training method to correlate lip shapes with the syllabic HMM states and has an audio-dominated cross-modal fusion Encoder (CMFE), in which multiple cross-modal fusions occur at different layers. It has achieved state-of-the-art performance on the MISP2021-AVSR corpus without using extra training data and complex front-ends and back-ends.</p>
 
+						<p>In the development stage of the MISP 2023 challenge, we will provide the code and the pre-trained model parameters of the AVSR model. Participants can independently decode the extracted speech from AVTSE and calculate the CER to evaluate the performance. In the evaluation stage, to compare the performance of the AVTSE system more fairly, participants are not allowed to adjust the AVSR model to obtain unfair results. Therefore, participants need to provide us with the extracted speech, and we will decode and calculate the CER for ranking.</p>
 
-						<h1 style="font-size: 150%;">Can I use extra audio/video/text data?</h1>
-						<p>In Track 1, external audio data can be used to train the AVSD model, such as VoxCeleb 1/2 , CN-Celeb, and other public datasets. Additional video data is also allowed to be used.</p>
-						<p>But use of external data is under the following conditions:</p>
+						<h1 style="font-size: 150%;">Guidelines</h1>
+						<h2 style="font-size: 120%;">Can I use extra audio/video/text data?</h2>
+						<p>We will open two rankings based on whether additional data is used. However, it is worth noting that we will only submit the ranking without using additional data as the official result. </p>
+						<p>If participants use additional data, they should follow the following rules:</p>
 						<ul>
-					        <li>The used external resource is clearly referenced and freely accessible to any other research group in the world. External data refers to public datasets or trained models. The data must be public and freely available before 15th of January 2023.</li>
+					        <li>The used external resource is clearly referenced and freely accessible to any other research group worldwide. External data refers to public datasets or trained models. The data must be public and freely available.</li>
 							<li>The list of external data sources used in training must be clearly indicated in the technical report.</li>
 							<li>Participants inform the organizers in advance about such data sources, so that all competitors know about them and have an equal opportunity to use them. Please send an email to the track coordinators; we will update the list of external datasets on the <a href="extral_data.html">web page</a> accordingly. Once the evaluation set is published, the list of allowed external data resources is locked (no further external sources allowed).</li>
 						</ul>
-						<p>We hope participants will pay more attention to technological innovation, especially audio and video fusion technology, instead of relying on using more data. This is not a pure competition, but a “scientific” challenge activity.</p>
+						<p>We hope participants will pay more attention to technological innovation, especially novel model architectures, instead of relying on using more data. This is not a pure competition, but a “scientific” challenge activity.</p>
 
 
-						<h1 style="font-size: 150%;">Which information can I use?</h1>
-						<p>You can use the following annotations for training and development:</p>
-						<ul>
-					        <li>the corresponding room sizes</li>
-							<li>the corresponding configuration labels (as shown in Tab.1)</li>
-							<li>the corresponding speaker labels</li>
-							<li>the start and end times of all utterances</li>
-						</ul>
-						<p>For training and development, you can use the full-length recordings of all recording devices. For evaluation, you are allowed to use for a given utterance the full-length recordings of far-field devices (both the linear 6 microphones array and the wide-angle camera) for that session.</p>
-
-
-						<h1 style="font-size: 150%;">Which information shall I not use?</h1>
-						<p>Manual modification of the data or the annotations (e.g., manual refinement of the utterance start and end times) is forbidden. All parameters should be tuned on the training set or the development set. Modifications of the development set are allowed, provided that its size remains unchanged and these modifications do not induce the risk of inadvertently biasing the development set toward the particular speakers or acoustic conditions in the evaluation set. For instance, enhancing the signals, applying “unbiased” transformations or automatically refining the utterance start and end times is allowed. Augmenting the development set by generating simulated data, applying biased signal transformations (e.g., systematically increasing intensity/pitch), or selecting a subset of the development set is forbidden. In case of doubt, please ask us ahead of the submission deadline.</p>
-						
-
-						<h1 style="font-size: 150%;">Can I use a AVSD system different from that in the official baseline pipeline?</h1>
-						<p>There is no limitation on AVSD model structure and model training technology used by participants. You are entirely free in the development of your system.</p>
-						<p>In particular, you can:</p>
-						
+						<h2 style="font-size: 120%;">Can I use a system different from that in the official baseline pipeline?</h2>
+						<p>There is no limitation on AVTSE model structure and model training technology used by participants. You are entirely free in the development of your system.
+							In particular, you can:</p>
 						<ul>
 					        <li>use the single-channel or multi-channel audio data</li>
 							<li>use other video pre-processing methods</li>
+							<li>use real or simulated data</li>
 							<li>use other audio features and visual features</li>
 							<li>use other post-processing methods</li>
-							<li>modify the audio/visual/audio-visual model architecture or the training criterion</li>
 						</ul>
-
-
-						<h1 style="font-size: 150%;">Which results should I report?</h1>
-						<p>For every tested system, you should report DER in the evaluation set.</p>
-
+				
+						<h2 style="font-size: 120%;">Which results should I submit?</h2>
+						<p>For every tested system, you need to submit the speech to be tested (extracted from AVTSE) in the evaluation set, and we will feed the submitted speech into the backend AVSR model. Then we will display the CER results and update them on the leaderboard.</p>
+				
 				</section>
 
 
