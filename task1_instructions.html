@@ -62,7 +62,7 @@
 					<div class="container">
 						
 						<h1 style="font-size: 150%;">Instructions</h1>
-						<p>Audio-visual target speech extraction (AVTSE) aims to extract the target speech from mixtures containing various speakers and background noise using audio and video data. In MISP 2023 challenge, in the development and evaluation stage, we only use middle-field video and 6-channels far-field audio.</p>
+						<p>Audio-visual target speech extraction (AVTSE) aims to extract the target speech from mixtures containing various speakers and background noise using audio and video data. In MISP 2023 challenge, in the development and evaluation stage, we only use middle-field video and 6-channels far-field audio. In addition, we will provide speaker related speech timestamps, which participants can use to segment the audio.</p>
 						
 
 						<h1 style="font-size: 150%;">Evaluation</h1>
@@ -74,13 +74,23 @@
 						</center>
 						<p>Where, S, D, and I represent the number of substitutions, deletions, and insertions, respectively. N is the number of characters in ground truth. The lower CER value (with 0 being a perfect score), the better the recognition performance, which means the better the performance of AVTSE.</p>
 						
-						<p>To enable participants to develop and adjust their AVTSE systems, we will provide a pre-trained AVSR model, which is the latest research of our team. This model uses a visual frontend pre-training method to correlate lip shapes with the syllabic HMM states and has an audio-dominated cross-modal fusion Encoder (CMFE), in which multiple cross-modal fusions occur at different layers. It has achieved state-of-the-art performance on the MISP2021-AVSR corpus without using extra training data and complex front-ends and back-ends.</p>
+						<p>To enable participants to develop and adjust their AVTSE systems, we will provide a pre-trained AVSR model, which is the latest research of our team. This model uses a visual frontend pre-training method to correlate lip shapes with the syllabic HMM states and has an audio-dominated cross-modal fusion Encoder (CMFE), in which multiple cross-modal fusions occur at different layers. It has achieved state-of-the-art performance on the MISP2021-AVSR corpus without using extra training data and complex front-ends and back-ends. The detailed description of this AVSR model can be found in the following paper.</p>
+						<p>
+							<font size="4">
+								@inproceedings{sheng2023series,</br>
+								title={Improving Audio-Visual Speech Recognition by Lip-Subword Correlation Based Visual Pre-training and Cross-Modal Fusion Encoder},</br>
+								author={Dai, Yusheng and Chen, Hang and Du, Jun and Ding, Xiaofei and Ding, Ning and Jiang, Feijun and Lee, Chin-Hui},</br>
+								booktitle={Proc. ICASSP 2022},</br> 
+								year={2023},</br>
+								organization={IEEE}}
+							</font>
+						</p>
 
-						<p>In the development stage of the MISP 2023 challenge, we will provide the code and the pre-trained model parameters of the AVSR model. Participants can independently decode the extracted speech from AVTSE and calculate the CER to evaluate the performance. In the evaluation stage, to compare the performance of the AVTSE system more fairly, participants are not allowed to adjust the AVSR model to obtain unfair results. Therefore, participants need to provide us with the extracted speech, and we will decode and calculate the CER for ranking.</p>
+						<!-- <p>In the development stage of the MISP 2023 challenge, we will provide the code and the pre-trained model parameters of the AVSR model. Participants can independently decode the extracted speech from AVTSE and calculate the CER to evaluate the performance. In the evaluation stage, to compare the performance of the AVTSE system more fairly, participants are not allowed to adjust the AVSR model to obtain unfair results. Therefore, participants need to provide us with the extracted speech, and we will decode and calculate the CER for ranking.</p> -->
 
 						<h1 style="font-size: 150%;">Guidelines</h1>
 						<h2 style="font-size: 120%;">Can I use extra audio/video/text data?</h2>
-						<p>We will open two rankings based on whether additional data is used. However, it is worth noting that we will only submit the ranking without using additional data as the official result. </p>
+						<p>We will open two rankings based on whether additional data is used. However, it is worth noting that we will only submit the ranking without using additional data as the official result. This is because we encourage technological innovation, rather than relying on large amounts of data to train models.</p>
 						<p>If participants use additional data, they should follow the following rules:</p>
 						<ul>
 					        <li>The used external resource is clearly referenced and freely accessible to any other research group worldwide. External data refers to public datasets or trained models. The data must be public and freely available.</li>
@@ -97,12 +107,26 @@
 					        <li>use the single-channel or multi-channel audio data</li>
 							<li>use other video pre-processing methods</li>
 							<li>use real or simulated data</li>
+							<li>use other simulation methods</li>
 							<li>use other audio features and visual features</li>
 							<li>use other post-processing methods</li>
 						</ul>
+
+						<h2 style="font-size: 120%;">Which information can I use?</h2>
+						<p>You can use the following annotations for training, development, and evaluation:</p>
+						<ul>
+					        <li>the corresponding room sizes</li>
+							<li>the corresponding configuration labels</li>
+							<li>the corresponding speaker labels</li>
+							<li>the start and end times of each speaker's speech</li>
+						</ul>
+
+						<h2 style="font-size: 120%;">Which information shall I not use?</h2>
+						<p>Manual modification of the data or the annotations (e.g., manual refinement of the utterance start and end times) is forbidden. All parameters should be tuned on the training set or the development set. Modifications of the development set are allowed, provided that its size remains unchanged and these modifications do not induce the risk of inadvertently biasing the development set toward the particular speakers or acoustic conditions in the evaluation set. For instance, enhancing the signals, applying “unbiased” transformations or automatically refining the utterance start and end times is allowed. Augmenting the development set by generating simulated data, applying biased signal transformations (e.g., systematically increasing intensity/pitch), or selecting a subset of the development set is forbidden. In case of doubt, please ask us ahead of the submission deadline.</p>
+				
 				
 						<h2 style="font-size: 120%;">Which results should I submit?</h2>
-						<p>For every tested system, you need to submit the speech to be tested (extracted from AVTSE) in the evaluation set, and we will feed the submitted speech into the backend AVSR model. Then we will display the CER results and update them on the leaderboard.</p>
+						<p>For every tested system, you need to submit the speech to be tested (extracted from AVTSE) in the evaluation set, and we will feed the submitted speech into the backend AVSR model. Then we will display the CER results and update them on the leaderboard. In addition, all participants should submit the system report after the leaderboard freeze.</p>
 				
 				</section>
 
