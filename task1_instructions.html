@@ -77,16 +77,16 @@
 						<p>To enable participants to develop and adjust their AVTSE systems, we will provide a pre-trained AVSR model, which is the latest research of our team. This model uses a visual frontend pre-training method to correlate lip shapes with the syllabic HMM states and has an audio-dominated cross-modal fusion Encoder (CMFE), in which multiple cross-modal fusions occur at different layers. It has achieved state-of-the-art performance on the MISP2021-AVSR corpus without using extra training data and complex front-ends and back-ends. The detailed description of this AVSR model can be found in the following <a href="doc/Improving Audio-Visual Speech Recognition by Lip-Subword Correlation Based Visual Pre-training.pdf">paper</a>.</p>
 						<p>
 							If you find the above system helpful, please cite:</br>
-							<font size="4">
-								@inproceedings{dai2023improving,</br>
-									title={Improving Audio-Visual Speech Recognition by Lip-Subword Correlation Based Visual Pre-training and Cross-Modal Fusion Encoder}, </br>
-									author={Yusheng Dai and Hang Chen and Jun Du and Xiaofei Ding and Ning Ding and Feijun Jiang and Chin-Hui Lee},</br>
-									booktitle={2023 IEEE International Conference on Multimedia and Expo (ICME)},</br>
-									pages={2627--2632},</br>
-									year={2023},</br>
-									organization={IEEE}</br>
-							  }
-							</font>
+						<code>
+@inproceedings{dai2023improving,
+  title={Improving Audio-Visual Speech Recognition by Lip-Subword Correlation Based Visual Pre-training and Cross-Modal Fusion Encoder},
+  author={Dai, Yusheng and Chen, Hang and Du, Jun and Ding, Xiaofei and Ding, Ning and Jiang, Feijun and Lee, Chin-Hui},
+  booktitle={2023 IEEE International Conference on Multimedia and Expo (ICME)},
+  pages={2627--2632},
+  year={2023},
+  organization={IEEE}
+}
+						</code>
 						</p>
 
 						<p>In the development stage of the MISP 2023 challenge, we will provide the code and the pre-trained model parameters of the AVSR model. Participants can independently decode the extracted speech from AVTSE and calculate the CER to evaluate the performance. In the evaluation stage, to compare the performance of the AVTSE system more fairly, we do not allow participants to adjust the AVSR model to obtain unfair results. Therefore, participants need to provide us with the extracted speech, and we will decode and calculate the CER for ranking.</p>
