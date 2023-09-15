@@ -62,11 +62,11 @@
 					<div class="container">
 						
 						<h1 style="font-size: 150%;">Instructions</h1>
-						<p>Audio-visual target speaker extraction (AVTSE) aims to extract the target speaker’s speech from mixtures containing various speakers and background noise using audio and video data. In MISP 2023 challenge, in the development and evaluation stage, we only use middle-field video and 6-channels far-field audio. In addition, we will provide speaker related speech timestamps, which participants can use to segment the audio.</p>
+						<p>Audio-visual target speaker extraction (AVTSE) aims to extract the target speaker’s speech from mixtures containing various speakers and background noise using audio and video data. In MISP 2023 challenge, we will explore the impact of the front-end AVTSE system on the back-end recognition system. In the development and evaluation stage, we only use middle-field video and 6-channels far-field audio. In addition, we will provide speaker related speech timestamps, which participants can use to segment the audio.</p>
 						
 
 						<h1 style="font-size: 150%;">Evaluation</h1>
-						<p>The ultimate goal of studying the front-end speech processing system is to improve the performance of the back-end system. To explore the impact of AVTSE on the back-end system, we will use an audio-visual speech recognition (AVSR) model to decode the extracted audio, and calculate character error rate (CER) as the evaluation metric.</p>
+						<p>The ultimate goal of studying the front-end speech processing system is to improve the performance of the back-end system. To explore the impact of AVTSE on the back-end system, we will use an ASR	model to decode the extracted audio, and calculate character error rate (CER) as the evaluation metric.</p>
 						<center>
 							<figure style="padding:0px;border:0px; margin:10px">
 							<img src="images/CER.png" style="width:300px;padding:0px;border:0" />
@@ -74,7 +74,7 @@
 						</center>
 						<p>Where, S, D, and I represent the number of substitutions, deletions, and insertions, respectively. N is the number of characters in ground truth. The lower CER value (with 0 being a perfect score), the better the recognition performance, which means the better the performance of AVTSE.</p>
 						
-						<p>To enable participants to develop and adjust their AVTSE systems, we will provide a pre-trained AVSR model, which is the latest research of our team. This model uses a visual frontend pre-training method to correlate lip shapes with the syllabic HMM states and has an audio-dominated cross-modal fusion Encoder (CMFE), in which multiple cross-modal fusions occur at different layers. It has achieved state-of-the-art performance on the MISP2021-AVSR corpus without using extra training data and complex front-ends and back-ends. The detailed description of this AVSR model can be found in the following <a href="https://ieeexplore.ieee.org/abstract/document/10219701/">paper</a>.</p>
+						<p>To enable participants to develop and adjust their ASR systems, we will provide a pre-trained AVSR model, which is the latest research of our team. To better investigate the role of the AVTSE system, we only use the audio-only ASR part of  <a href="https://ieeexplore.ieee.org/abstract/document/10219701/">paper</a>.</p>
 						<p>
 							If you find the above system helpful, please cite:</br>
 						
@@ -91,11 +91,11 @@
 						
 						</p>
 
-						<p>In the development stage of the MISP 2023 challenge, we will provide the code and the pre-trained model parameters of the AVSR model. Participants can independently decode the extracted speech from AVTSE and calculate the CER to evaluate the performance. In the evaluation stage, to compare the performance of the AVTSE system more fairly, we do not allow participants to adjust the AVSR model to obtain unfair results. Therefore, participants need to provide us with the extracted speech, and we will decode and calculate the CER for ranking. In addition, we will use the DNSMOS as a reference to explore the relationship between listening and back-end tasks.</p>
+						<p>We will provide the code and the pre-trained model parameters of the ASR model in the development stage of the MISP 2023 challenge. Participants can independently decode the extracted speech from AVTSE and calculate the CER to evaluate the performance. In the evaluation stage, to compare the performance of the AVTSE system more fairly, we do not allow participants to adjust the ASR model to obtain unfair results. Therefore, participants need to provide us with the extracted speech, and we will decode and calculate the CER for ranking. In addition, we will use the DNSMOS as a reference to explore the relationship between listening and back-end tasks.</p>
 
 						<h1 style="font-size: 150%;">Guidelines</h1>
 						<h2 style="font-size: 120%;">Can I use extra audio/video/text data?</h2>
-						<p>We will open two rankings based on whether additional data is used. However, it is worth noting that we will only submit the ranking without using additional data as the official result. This is because we encourage technological innovation, rather than relying on large amounts of data to train models.</p>
+						<p>We will open two rankings based on whether external data, apart from the MISP dataset, has been utilized. However, it is worth noting that we will only submit the ranking which is without using them to ICASSP SPGC. This is because we encourage technological innovation, rather than relying on large amounts of data to train models.</p>
 						<p>If participants use additional data, they should follow the following rules:</p>
 						<ul>
 					        <li>The used external resource is clearly referenced and freely accessible to any other research group worldwide. External data refers to public datasets or trained models. The data must be public and freely available.</li>
@@ -131,7 +131,7 @@
 				
 				
 						<h2 style="font-size: 120%;">Which results should I submit?</h2>
-						<p>For every tested system, you need to submit the speech to be tested (extracted from AVTSE) in the evaluation set, and we will feed the submitted speech into the backend AVSR model. Then we will display the CER results and update them on the leaderboard. In addition, all participants should submit the system report after the leaderboard freeze.</p>
+						<p>For every tested system, you need to submit the speech to be tested (extracted from AVTSE) in the evaluation set, and we will feed the submitted speech into the backend ASR model. Then we will display the CER results and update them on the leaderboard. In addition, all participants should submit the system report after the leaderboard freeze.</p>
 				
 				</section>
 
