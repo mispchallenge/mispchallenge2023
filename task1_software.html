@@ -67,182 +67,93 @@ ul.c {list-style-type: square;}
 
 			<!-- Main -->
 			<!-- <h1 style="font-size: 150%;">For details, please refer to Github  <a href="https://github.com/mispchallenge/MISP-2023-Challenge-Baseline">link</a>. The webpage is being updated.</h1> -->
-			<p><strong>For details, please refer to Github  <a href="https://github.com/mispchallenge/MISP-2023-Challenge-Baseline">link</a>. The webpage is being updated.</strong> </p>
-			<!-- <section class="wrapper style1">
+			<section class="wrapper style1">
 				<div class="container">
-					<h1 style="font-size: 150%;">Track1 AVSD Baseline</h1>
-					<p>For details, please refer to <a href="https://github.com/mispchallenge/misp2022_baseline/tree/main/track1_AVSD">Github link</a></p>				   
-
-					<h1 style="font-size: 150%;">Data preparation</h1>
-
+					<header>
+						<h1 style="font-size: 150%;">Baseline</h1>
+					</header>
+					<p>For the code and guide of the baseline system, please refer to <a href="https://github.com/mispchallenge/MISP-2023-Challenge-Baseline">Github link</a></p>
+					<p>For more description of the baseline system, please refer to the following two papers:</p>
 					<ul>
-						<li><strong>Speech enhancement</strong></li>
-						<p>Weighted Prediction Error(WPE) dereverberation is used to reduce the reverberations of speech signals. The algorithms is implemented with open-source toolkit, <a href="https://github.com/fgnt/nara_wpe">nara_wpe</a></p>
-
-						<li><strong>Lip ROI extraction</strong></li>
-						<p>In the dataset, we provide the position detection results of the face and lips, which can be used to extract the ROI of the face or lips (only the lips are used here). The extracted lip ROI size is 96 × 96 (W × H) .</p>
+						<li><a href="https://arxiv.org/abs/2309.08348">The Multimodal Information Based Speech Processing (MISP) 2023 Challenge: Audio-Visual Target Speaker Extraction</a></li>
+						<li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0893608021002355">Correlating subword articulation with lip shapes for embedding aware audio-visual speech enhancement. </a></li>
 					</ul>
+				</div>
+			</section>
+			
+			<section class="wrapper style1">
+				<div class="container">
+					<header>
+						<h1 style="font-size: 150%;">Data Preparation</h1>
+					</header>
+					<p>As shown in the Data section, we performed data cleaning on the raw audio data and simulated 6-channel far-field audio using the cleaned near-field speech.</p>
+				</div>
+			</section>
 
-
-					<h1 style="font-size: 150%;">Visual embedding module</h1>
-					<p>The visual embedding module is illustrated in the top row of Fig.1. On the basis of the original <a href="https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks">lipreading model</a>, we add three conformer blocks with 256 encoder dims, 4 attention heads, 32 conv kernel size and a 256-cell BLSTM to compute the visual embedding for speakers. The whole network can be regarded as visual voice activity detection (V-VAD) module. After pre-training the visual network as a V-VAD task, V-embeddings are equipped with capability that represent the states of speaking or silent. By feeding the embedding into the fully connected layers, we can get the probability of whether a speaker speaks in each frame. Combining the results of each speaker, we will get the initial diarization results.</p>
-
-					<h1 style="font-size: 150%;">Audio embedding module</h1>
-					<p>We firstly use the NARA-WPE method to dereverberate the original audio signals. Then, We extracted 40-dimensional FBANKs with 25 ms frame length and 10 ms frame shift. We extract the audio embedding from FBANKS through 4 layers 2D CNN. Then, a fully connected layer projects high dimensional CNNs output to low dimensional A-embeddings. Unlike visual network, we don’t pre-train audio network on any other tasks and directly optimize it with audio-visual decoding network.</p>
-
-					<h1 style="font-size: 150%;">Speaker embedding module</h1>
-					<p>To reduce the impact of the unreliable visual embedding, we use 100-dimensional i-vector extractor which was trained on Cn-celeb to get the i-vectors as the speaker embedding. We compute i-vectors through the oracle labels for each speaker in the training stage. And in the inference stage, we compute i-vectors through the initial diarization results from the visual embedding extraction module.</p>
-
-					<h1 style="font-size: 150%;">Decoder module</h1>
-					<p>We firstly repeat the three embeddings for different times to solve the problem of different frame shift between audio and video. Then, we combine them to get the total embedding. In the decoding block, we use 2-layer BLSTM with projection to further extract the features. Finally, we use a 1-layer BLSTM with projection and the fully connected layer to get the speech or non-speech probabilities for each speaker respectively. All of BLSTM layers contained 896 cells. In the post-processing stage, we first perform thresholding with the probabilities to produce a preliminary result and adopt the same approaches in <a href="https://ieeexplore.ieee.org/document/9747067">previous work</a>. Furthermore, <a href="https://github.com/desh2608/dover-lap">DOVER-Lap</a> is used to fuse the results of 6-channels audio.</p>
-					
-					<h1 style="font-size: 150%;">Decoder module</h1>
-					<p>We firstly repeat the three embeddings for different times to solve the problem of different frame shift between audio and video. Then, we combine them to get the total embedding. In the decoding block, we use 2-layer BLSTM with projection to further extract the features. Finally, we use a 1-layer BLSTM with projection and the fully connected layer to get the speech or non-speech probabilities for each speaker respectively. All of BLSTM layers contained 896 cells. In the post-processing stage, we first perform thresholding with the probabilities to produce a preliminary result and adopt the same approaches in <a href="https://ieeexplore.ieee.org/document/9747067">previous work</a>. Furthermore, <a href="https://github.com/desh2608/dover-lap">DOVER-Lap</a> is used to fuse the results of 6-channels audio.</p>
-
-					<h1 style="font-size: 150%;">Training process</h1>
-					<p>First, we use the parameters of the pre-trained lipreading and train the V-VAD model with a learning rate of 10-4. Then, we freeze the visual network parameters and train the audio network and audio-visual decoding block on synchronized middle-field audio and video with a learning rate of 10<sup>−4</sup>. Finally,we unfreeze the visual network parameters and train the whole network jointly on synchronized middle-field audio and video with a learning rate of 10<sup>−5</sup>.</p>
-
-					<h1 style="font-size: 150%;">Baseline Results</h1>
+			<section class="wrapper style1">
+				<div class="container">
+					<header>
+						<h1 style="font-size: 150%;">System Architecture</h1>
+					</header>
 					<center>
 						<figure style="padding:0px;border:0px; margin:10px">
-						<img src="images/AVSD_baseline_result.png" style="width:500px;padding:0px;border:0" />
+						<img src="images/basline_sys.png" alt="Real Shot" style="width:40%;padding:0px;border:0" />
+						<figcaption>Fig.1. Diagram of the baseline system.</figcaption>
 						</figure>
 					</center>
-					<p>We use Diarization error rate (DER) as the evaluation index. The above results are measured on the far-field audio and video. For the ASD system, we use the <a href="https://github.com/BUTSpeechFIT/VBx">VBx method</a>. For the VSD system, we use the result from the visual embedding module. And the AVSD system is our method. At the same time, this AVSD result also serves as the baseline result of the MISP2022 Challenge Track 1 in development set. The baseline results of the evaluation set will be published together with the data according to the schedule.</p>
-
-					<h1 style="font-size: 150%;">Quick start</h1>
-					<ul>
-						<li><strong>Add file execution permissions</strong></li>
-						<code>
-							chmod +x -R /export/corpus/exp/av_diarization/misp2022_baseline/track1_AVSD/  # (Your code path) 
-						</code>
-
-						<li><strong>Data prepare</strong></li>
-						<code>
-							bash data_prepare.sh   # (Please change your file path in the script. Note that WPE is not necessary for training set) 
-						</code>
-						
-						<li><strong>Setting kaldi</strong></li>
-						<code>
-							--- cmd.sh ---</br>
-							export train_cmd=run.pl </br>
-							export decode_cmd=run.pl</br>
-							export cmd=run.pl</br>
-
-							--- path.sh ---</br>
-							export KALDI_ROOT=`pwd`/../../..        # Defining Kaldi root directory</br>
-							#[ -f $KALDI_ROOT/tools/env.sh ] && . $KALDI_ROOT/tools/env.sh</br>
-							Export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$KALDI_ROOT/tools/irstlm/bin/:$PWD:$PATH</br>
-							[ ! -f $KALDI_ROOT/tools/config/common_path.sh ] && echo >&2 "The standard file $KALDI_ROOT/tools/config/common_path.sh is not present -> Exit!" && exit 1</br>
-							. $KALDI_ROOT/tools/config/common_path.sh</br>
-							export LC_ALL=C
-						</code>
-
-						<li><strong>Pre-trained model</strong></li>
-						<p>There are three pre-trained models.</p>
-						<p>The conformer_v_sd_2.model and av_diarization_3.model are the pre-trained models of visual embedding module and audio-visual module respectively. You can choose whether to download them. Specifically, if you do not want to conduct the training process but directly decode, you can download these two models.</p>
-						<p>Lipreading_LRW.pt is the pre-trained model of lipreading. The training process will use it. Therefore, if you want to conduct the training process, you must download this model.</p>
-						<code>
-							conformer_v_sd_2.model</br>
-							av_diarization_3.model</br>
-							lipreading_LRW.pt </br>		
-						</code>
-						<p></p>
-						<p>The link of Google drive is: <a href="https://drive.google.com/drive/folders/1kh40NNBW84kODM0PrWvYLwDCjuqpKqj7?usp=sharing">https://drive.google.com/drive/folders/1kh40NNBW84kODM0PrWvYLwDCjuqpKqj7?usp=sharing</a></p>
-						<p>Please put the downloaded model into model/pretrained/</p>
-						
-
-						<li><strong>Training</strong></li>
-						<code>
-							bash run.sh </br>
-							# options: </br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		--stage 1 </br>
-							# change the number to start from different training stage </br>
-							<p>Please change some file paths in the script to your own path.</p>
-						</code>
-
-
-						<li><strong>Decoding</strong></li>
-						<p>If you have downloaded the pre-trained models, you can directly do the decoding process.</p>
-						<code>
-							bash run.sh </br>
-							# options: </br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		--stage 5 </br>
-							# change the number to start from different training stage </br>
-							(stage 5 ~ 9 are the decoding process using single channel audio; stage 10 ~ 11 are the decoding process fusing 6-channels audio)
-						</code>
-						<p>The lip ROI and ivector of the training set will be used in the decoding process. So you need to use stage2 of data_prepare.sh to extract the lip ROI of the training set, and use stage 3 of run.sh to extract the ivector of the training set. We have prepared the ivector of the training set. You can directly use it.</p>
-
-						<h1 style="font-size: 150%;">Requirments</h1>
-						<ul>
-							<li>
-								<p><strong>Kaldi</strong></p>
-							</li>
-							<li>
-								<p><strong>pytorch</strong></p>
-							</li>
-
-							<li>
-							<p><strong>Python Packages:</strong></br>
-							nbformat</br>
-							argparse</br>
-							numpy</br>
-							tqdm</br>
-							opencv-python</br>
-							einops</br>
-							scipy</br>
-							prefetch_generator</br>
-							</p>
-							</li>
-
-							<li>
-							<p><a href="https://github.com/fgnt/nara_wpe">Nare_wpe</a></p>
-							</li>
-
-							<li>
-								<p><a href="https://github.com/desh2608/dover-lap">Dover</a></p>
-							</li>
-
-							<li>
-								<p><a href="https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks">Lipreading using Temporal Convolutional Networks</a></p>
-							</li>
-
-							</ul>
-					</ul>
-
-					<h1 style="font-size: 150%;">Citation</h1>
-					<p>If you find this code useful in your research, please consider to cite the following papers:</br>
-						<font size="4">
-							@inproceedings{he2022,</br>
-							title={End-to-End Audio-Visual Neural Speaker Diarization},</br>
-							author={He, Mao-kui and Du, Jun and Lee, Chin-Hui},</br>
-							booktitle={Proc. Interspeech 2022},</br>
-							pages={1461--1465},</br>
-							year={2022}}
-						</font>
-					</p>
+					<p>As shown in Figure 1, first, we used the oracle diarization results to conduct guided source separation (GSS) on 6-channels mixture audio to initially mitigate the impact of the overlapping speech. Then, we use our recent work - the multimodal embedding aware speech enhancement (MEASE) model to futher extract the speech of the target speaker. The MEASE model comprises a multimodal embedding extractor (in red dashed box) and an embedding-aware enhancement network. For more details, please refer to the two papers above.</p>
 				</div>
-			</section> -->
+			</section>
 
-<!-- 				<section class="wrapper style1">
-					<div class="container">
-						<h1 style="font-size: 150%;">Task1 Software</h1>
-						<p></p>
-					</div>
-				</section>
+			<section class="wrapper style1">
+				<div class="container">
+					<header>
+						<h1 style="font-size: 150%;">Training Process</h1>
+					</header>
+					<center>
+						<figure style="padding:0px;border:0px; margin:10px">
+						<img src="images/two_stage.png" alt="Real Shot" style="width:50%;padding:0px;border:0" />
+						<figcaption>Fig.2. The two-stage training process of the baseline system.</figcaption>
+						</figure>
+					</center>
+					<p>As shown in Figure 2, the training process of the baseline system encompasses two stages. Firstly, we trained the MEASE model using the simulated data with MSE as the loss function. In the second stage, we fine-tuned the pre-trained MEASE model using the recognition back-end. Furthermore, to mitigate the issue of mismatch between simulated data and real-world scenarios, we utilized the real far-field data from the training set in the second stage. Because we require that the parameters of the back-end system cannot be changed, we freeze the recognition model and only use the loss returned by it.</p>
+				</div>
+			</section>
 
-				<section class="wrapper style2">
-					<div class="container">
-						<h1 style="font-size: 150%;">......</h1>
-					</div>
-				</section>
+			<section class="wrapper style1">
+				<div class="container">
+					<header>
+						<h1 style="font-size: 150%;">Back-end ASR Testing</h1>
+					</header>
+					<center>
+						<figure style="padding:0px;border:0px; margin:10px">
+						<img src="images/back_end_asr.png" alt="Real Shot" style="width:25%;padding:0px;border:0" />
+						<figcaption>Fig.2. The two-stage training process of the baseline system.</figcaption>
+						</figure>
+					</center>
+					<p>The backend ASR model is based on this following paper:</p>
+					<p><a href="https://ieeexplore.ieee.org/abstract/document/10219701">Improving Audio-Visual Speech Recognition by Lip-Subword Correlation Based Visual Pre-training and Cross-Modal Fusion Encoder.</a></p>
+					<p>We have given the code and the pre-trained parameters for the ASR model, which you can find in the github link above. You can test the extracted speech directly. In addition, you can also use different methods to use the back-end system to finetune the front-end AVTSE system just like the baseline system, but you must ensure that the back-end system parameters do not change.</p>
+				</div>
+			</section>
 
-				<section class="wrapper style1">
-					<div class="container">
-						<h1 style="font-size: 150%;">......</h1>
-					</div>
-				</section> -->
-
+			<section class="wrapper style1">
+				<div class="container">
+					<header>
+						<h1 style="font-size: 150%;">Baseline Results</h1>
+					</header>
+					<center>
+						<figure style="padding:0px;border:0px; margin:10px">
+						<figcaption>Tab. 1. Detailed CER (%) and DNSMOS results of different front-end systems on the development set.</figcaption>
+						<img src="images/base_results.png" alt="Real Shot" style="width:70%;padding:0px;border:0" />
+						</figure>
+					</center>
+					<p>Table 1 shows the results of different front-end systems in the speech recognition evaluation metric and DNSMOS P.835. It is worth noting that we only use the recognition results as the evaluation indicators. DNSMOS is only used as a reference to study changes in speech quality. The final baseline result is the CER of 26.3. The baseline results of the evaluation set will be given after the evaluation set is released.</p>
+					
+				</div>
+			</section>
+			
+			
 			<!-- Footer -->
 				<div id="footer">
 					<!-- Copyright -->
